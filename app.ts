@@ -13,5 +13,7 @@ let textArrayElems = textArray?.map((char) => {
 elem!.innerHTML = ""
 elem!.append(...textArrayElems!);
 
+
+
 //elem!.innerText = "";
 //console.log(textArrayElems);
