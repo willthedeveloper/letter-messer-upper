@@ -1,19 +1,40 @@
-let elem = document.getElementById("select-me");
-let text = elem?.textContent;
-let textArray = text?.split("");
+function decompose (elem) {
+    let text = elem.textContent;
+    let textArray = text.split("");
 
-let textArrayElems = textArray?.map((char) => {
-  const elemChar = document.createElement("span");
-  elemChar.textContent = char;
-  elemChar.className = "test";
-  //elem!.appendChild(elemChar);
-  return elemChar;
-});
+    let textArrayElems = textArray?.map((char) => {
+        const elemChar = document.createElement("span");
+        elemChar.textContent = char;
+        elemChar.className = "test";        
+        return elemChar;
+    });
+    
+    elem.innerHTML = ""
+    elem.append(...textArrayElems!);
+}
 
-elem!.innerHTML = ""
-elem!.append(...textArrayElems!);
 
+function textFilter(node) {
+  if (["p", "span"].includes(node.parentElement.localName)) {
+    return NodeFilter.FILTER_ACCEPT;
+  }
+}
 
+function getTextNodes() {
+    var walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: textFilter }, true);
+    var n,
+      a = [];
 
-//elem!.innerText = "";
-//console.log(textArrayElems);
+    while ((n = walk.nextNode())) a.push(n);
+    return a
+}
+
+let textNodes = getTextNodes();
+console.log(textNodes);
+
+for (let index = 0; index < textNodes.length; index++) {
+    const element = textNodes[index];
+    console.log(element);
+    
+    decompose(element);
+}

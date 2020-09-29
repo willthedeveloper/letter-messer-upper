@@ -1,5 +1,6 @@
 .test {
     transition: all 0.2s;
+    color: red
 }
 
 .test:hover {
