@@ -1,10 +1,9 @@
 .test {
     transition: all 0.2s;
-    color: red
+    display: inline-block;
 }
 
 .test:hover {
-    color: red;
-    /* font-size: 20px; */
+    font-size: 40px;
+    margin-top: -50px;
 }
-

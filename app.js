@@ -6,13 +6,13 @@ function decompose(elem) {
         var elemChar = document.createElement("span");
         elemChar.textContent = char;
         elemChar.className = "test";
+        elem.parentNode.insertBefore(elemChar, elem);
         return elemChar;
     });
-    elem.innerHTML = "";
-    elem.append.apply(elem, textArrayElems);
+    elem.parentNode.removeChild(elem);
 }
 function textFilter(node) {
-    if (["p", "span"].includes(node.parentElement.localName)) {
+    if (["p", "span", "label", "a", "h*"].includes(node.parentElement.localName)) {
         return NodeFilter.FILTER_ACCEPT;
     }
 }
@@ -24,9 +24,7 @@ function getTextNodes() {
     return a;
 }
 var textNodes = getTextNodes();
-console.log(textNodes);
 for (var index = 0; index < textNodes.length; index++) {
-    var element = textNodes[index];
-    console.log(element);
-    decompose(element);
+    var textNode = textNodes[index];
+    decompose(textNode);
 }
