@@ -1,9 +1,9 @@
 .test {
-    transition: all 0.2s;
+    transition: all 1s;
+    color: blue;
     display: inline-block;
 }
 
 .test:hover {
-    font-size: 40px;
-    margin-top: -50px;
+    transform: scale3d(100,100,0);
 }
