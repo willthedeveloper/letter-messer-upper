@@ -1,8 +1,8 @@
 .test {
-    transition: all .2s;
-    color: blue;
-}
-
-.test:hover {
-    font-size: 1px;
+  /* transition: all 0.2s; */
+  /* color: blue; */
+  /* position: relative;
+  display: inline;
+  margin: 1px;
+  padding: 1px; */
 }
