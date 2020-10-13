@@ -3,17 +3,11 @@
  * Utility function to add CSS in multiple passes.
  * @param {string} styleString
  */
-function addStyle(styleString) {
-    const style = document.createElement('style');
-    style.textContent = styleString;
-    document.head.append(style);
+function addStyle(style) {
+    const styleTag = document.createElement('style');
+    styleTag.textContent = style;
+    document.head.append(styleTag);
 }
-addStyle(`
-    .letter {
-        padding: 0 4px;
-        margin: 0 1px;
-    }
-  `);
 // Calculating contrast
 // From: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
 const hex2Rgb = function (hex) {
@@ -26,7 +20,7 @@ const hex2Rgb = function (hex) {
         }
         : { r: 0, g: 0, b: 0 };
 };
-function luminanace(r, g, b) {
+function luminance(r, g, b) {
     const a = [r, g, b].map(function (v) {
         v /= 255;
         return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
@@ -34,8 +28,8 @@ function luminanace(r, g, b) {
     return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
 }
 function contrast(rgb1, rgb2) {
-    const lum1 = luminanace(rgb1.r, rgb1.g, rgb1.b);
-    const lum2 = luminanace(rgb2.r, rgb2.g, rgb2.b);
+    const lum1 = luminance(rgb1.r, rgb1.g, rgb1.b);
+    const lum2 = luminance(rgb2.r, rgb2.g, rgb2.b);
     const brightest = Math.max(lum1, lum2);
     const darkest = Math.min(lum1, lum2);
     return (brightest + 0.05) / (darkest + 0.05);
@@ -131,10 +125,13 @@ function randomFontGen() {
     ];
     return getRandomFromArray(fonts);
 }
+function randomRotationGen() {
+    return `rotate(${(Math.random() * 4) - (Math.random() * 4)}deg)`;
+}
 function decompose(elem) {
     let text = elem.textContent;
     let textArray = text?.split('');
-    let textArrayElems = textArray?.map((char) => {
+    textArray?.map((char) => {
         const elemChar = document.createElement('span');
         elemChar.setAttribute('class', 'letter');
         elemChar.textContent = char;
@@ -146,6 +143,7 @@ function decompose(elem) {
         elemChar.style.setProperty('right', randomPixelSizeGen(3, 1));
         elemChar.style.setProperty('bottom', randomPixelSizeGen(3, 1));
         elemChar.style.setProperty('font-size', randomPixelSizeGen(20, 15));
+        elemChar.style.setProperty('transform', randomRotationGen());
         elem.parentNode?.insertBefore(elemChar, elem);
         return elemChar;
     });
@@ -188,8 +186,17 @@ function getTextNodes() {
         a.push(n);
     return a;
 }
-let textNodes = getTextNodes();
-for (let index = 0; index < textNodes.length; index++) {
-    const textNode = textNodes[index];
-    decompose(textNode);
+function init() {
+    let textNodes = getTextNodes();
+    addStyle(`
+    .letter {
+        padding: 0 1px;
+        display: inline-block;
+        box-shadow: 0px 1px 0px 0px #0000003b;
+    }
+  `);
+    for (let textNode of textNodes) {
+        decompose(textNode);
+    }
 }
+init();
