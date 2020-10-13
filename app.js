@@ -1,13 +1,4 @@
 "use strict";
-/**
- * Utility function to add CSS in multiple passes.
- * @param {string} styleString
- */
-function addStyle(style) {
-    const styleTag = document.createElement('style');
-    styleTag.textContent = style;
-    document.head.append(styleTag);
-}
 // Calculating contrast
 // From: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
 const hex2Rgb = function (hex) {
@@ -44,10 +35,6 @@ function setFontColors(elemChar) {
     }
     elemChar.style.setProperty('color', fontColor);
     elemChar.style.setProperty('background-color', fontBackgroundColor);
-    console.log(elemChar.textContent);
-    if (elemChar.textContent === ' ' || elemChar.textContent === '\n') {
-        elemChar.style.setProperty('background-color', '');
-    }
 }
 // Random generators
 function getRandomFromArray(array) {
@@ -133,17 +120,23 @@ function decompose(elem) {
     let textArray = text?.split('');
     textArray?.map((char) => {
         const elemChar = document.createElement('span');
-        elemChar.setAttribute('class', 'letter');
         elemChar.textContent = char;
-        setFontColors(elemChar);
-        elemChar.style.setProperty('font-family', randomFontGen());
-        elemChar.style.setProperty('text-transform', randomFontCapitalizationGen());
-        elemChar.style.setProperty('top', randomPixelSizeGen(3, 1));
-        elemChar.style.setProperty('left', randomPixelSizeGen(3, 1));
-        elemChar.style.setProperty('right', randomPixelSizeGen(3, 1));
-        elemChar.style.setProperty('bottom', randomPixelSizeGen(3, 1));
-        elemChar.style.setProperty('font-size', randomPixelSizeGen(20, 15));
-        elemChar.style.setProperty('transform', randomRotationGen());
+        const isEmptySpace = char === ' ' || char === '\n';
+        if (!isEmptySpace) {
+            elemChar.setAttribute('class', 'letter');
+            setFontColors(elemChar);
+            elemChar.style.setProperty('font-family', randomFontGen());
+            elemChar.style.setProperty('text-transform', randomFontCapitalizationGen());
+            elemChar.style.setProperty('top', randomPixelSizeGen(3, 1));
+            elemChar.style.setProperty('left', randomPixelSizeGen(3, 1));
+            elemChar.style.setProperty('right', randomPixelSizeGen(3, 1));
+            elemChar.style.setProperty('bottom', randomPixelSizeGen(3, 1));
+            elemChar.style.setProperty('font-size', randomPixelSizeGen(20, 15));
+            elemChar.style.setProperty('transform', randomRotationGen());
+            elemChar.style.setProperty('display', 'inline-block');
+            elemChar.style.setProperty('padding', '0 1px;');
+            elemChar.style.setProperty('box-shadow', '0px 1px 0px 0px #0000003');
+        }
         elem.parentNode?.insertBefore(elemChar, elem);
         return elemChar;
     });
@@ -188,13 +181,6 @@ function getTextNodes() {
 }
 function init() {
     let textNodes = getTextNodes();
-    addStyle(`
-    .letter {
-        padding: 0 1px;
-        display: inline-block;
-        box-shadow: 0px 1px 0px 0px #0000003b;
-    }
-  `);
     for (let textNode of textNodes) {
         decompose(textNode);
     }
