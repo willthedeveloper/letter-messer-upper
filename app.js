@@ -29,7 +29,7 @@ function contrast(rgb1, rgb2) {
 function setFontColors(elemChar) {
     let fontColor = randomColorGen();
     let fontBackgroundColor = randomColorGen();
-    while (contrast(hex2Rgb(fontColor), hex2Rgb(fontBackgroundColor)) < 5) {
+    while (contrast(hex2Rgb(fontColor), hex2Rgb(fontBackgroundColor)) < 6) {
         fontColor = randomColorGen();
         fontBackgroundColor = randomColorGen();
     }
@@ -115,33 +115,55 @@ function randomFontGen() {
 function randomRotationGen() {
     return `rotate(${(Math.random() * 4) - (Math.random() * 4)}deg)`;
 }
-function decompose(elem) {
-    let text = elem.textContent;
-    let textArray = text?.split('');
-    textArray?.map((char) => {
-        const elemChar = document.createElement('span');
-        elemChar.textContent = char;
-        const isEmptySpace = char === ' ' || char === '\n';
-        if (!isEmptySpace) {
-            elemChar.setAttribute('class', 'letter');
-            setFontColors(elemChar);
-            elemChar.style.setProperty('font-family', randomFontGen());
-            elemChar.style.setProperty('text-transform', randomFontCapitalizationGen());
-            elemChar.style.setProperty('top', randomPixelSizeGen(3, 1));
-            elemChar.style.setProperty('left', randomPixelSizeGen(3, 1));
-            elemChar.style.setProperty('right', randomPixelSizeGen(3, 1));
-            elemChar.style.setProperty('bottom', randomPixelSizeGen(3, 1));
-            elemChar.style.setProperty('font-size', randomPixelSizeGen(20, 15));
-            elemChar.style.setProperty('transform', randomRotationGen());
-            elemChar.style.setProperty('display', 'inline-block');
-            elemChar.style.setProperty('padding', '0 1px;');
-            elemChar.style.setProperty('box-shadow', '0px 1px 0px 0px #0000003');
-        }
-        elem.parentNode?.insertBefore(elemChar, elem);
-        return elemChar;
-    });
-    elem.parentNode?.removeChild(elem);
+function ransomify(spanEl) {
+    spanEl.setAttribute('class', 'letter');
+    setFontColors(spanEl);
+    spanEl.style.setProperty('font-family', randomFontGen());
+    spanEl.style.setProperty('text-transform', randomFontCapitalizationGen());
+    spanEl.style.setProperty('top', randomPixelSizeGen(3, 1));
+    spanEl.style.setProperty('left', randomPixelSizeGen(3, 1));
+    spanEl.style.setProperty('right', randomPixelSizeGen(3, 1));
+    spanEl.style.setProperty('bottom', randomPixelSizeGen(3, 1));
+    spanEl.style.setProperty('font-size', randomPixelSizeGen(20, 15));
+    spanEl.style.setProperty('transform', randomRotationGen());
+    spanEl.style.setProperty('display', 'inline-block');
+    spanEl.style.setProperty('padding', '0 1px;');
+    spanEl.style.setProperty('box-shadow', '0px 1px 0px 0px #0000003');
 }
+// Slowly lose it
+// function directions(): any {
+//     const directions = ['top', 'left'];
+//     return directions[Math.floor(Math.random() * directions.length)];
+// }
+function getRandomDistance() {
+    const factor = 2;
+    let num = Math.random() * factor;
+    num *= Math.floor(Math.random() * 2) === 1 ? 1 : -1;
+    return num;
+}
+function moveRandomly(el) {
+    const directions = ['top', 'left'];
+    for (let prop of directions) {
+        const pos = el.style[prop];
+        const pos_ = parseInt(pos.substr(0, pos.length - 2)) + getRandomDistance();
+        el.style.setProperty(prop, `${pos_}px`);
+    }
+}
+function makeRandomMoves() {
+    const els = document.getElementsByClassName('slowly-lose-it');
+    window.setInterval(function () {
+        const el = els[Math.floor(Math.random() * els.length)];
+        moveRandomly(el);
+    }, 10);
+}
+function slowlyLoseIt(spanEl) {
+    spanEl.setAttribute('class', 'slowly-lose-it');
+    spanEl.style.setProperty('position', 'relative');
+    spanEl.style.setProperty('top', '0px');
+    spanEl.style.setProperty('left', '0px');
+    spanEl.style.setProperty('transition', 'all 1s');
+}
+// Decompose the text in a DOM
 function textFilter(node) {
     if ([
         'p',
@@ -179,10 +201,28 @@ function getTextNodes() {
         a.push(n);
     return a;
 }
-function init() {
+function doThisToEveryLetter(transformFunc, cb) {
+    // Get all text nodes in DOM
     let textNodes = getTextNodes();
     for (let textNode of textNodes) {
-        decompose(textNode);
+        // Split node up into individual letters
+        let text = textNode.textContent;
+        let textArray = text?.split('');
+        // Generate the new element for each letter.
+        textArray?.map((char) => {
+            const elemChar = document.createElement('span');
+            const isEmptySpace = char === ' ' || char === '\n';
+            elemChar.textContent = char;
+            if (!isEmptySpace) {
+                transformFunc(elemChar);
+            }
+            textNode.parentNode?.insertBefore(elemChar, textNode);
+            return elemChar;
+        });
+        textNode.parentNode?.removeChild(textNode);
     }
+    cb();
 }
-init();
+;
+// doThisToEveryLetter(ransomify);
+doThisToEveryLetter(slowlyLoseIt, makeRandomMoves);

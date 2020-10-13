@@ -13,7 +13,7 @@
   "author": "Will Moritz",
   "license": "ISC",
   "prettier": {
-    "trailingComma": "es5",
+    "trailingComma": "none",
     "tabWidth": 4,
     "singleQuote": true,
     "bracketSpacing": true
@@ -23,5 +23,6 @@
     "lite-server": "^2.5.4",
     "prettier": "2.1.2",
     "typescript": "^4.0.2"
-  }
+  },
+  "dependencies": {}
 }
