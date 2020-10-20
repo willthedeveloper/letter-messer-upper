@@ -1,3 +1,11 @@
+//
+// 
+// 
+// Example: ransom note
+// 
+// 
+// 
+
 // Calculating contrast
 // From: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
 
@@ -150,15 +158,16 @@ function ransomify(spanEl: HTMLSpanElement) {
     spanEl.style.setProperty('box-shadow', '0px 1px 0px 0px #0000003');
 }
 
-
-// Slowly lose it
-// function directions(): any {
-//     const directions = ['top', 'left'];
-//     return directions[Math.floor(Math.random() * directions.length)];
-// }
+//
+// 
+// 
+// Example: slowly lose it
+// 
+// 
+// 
 
 function getRandomDistance(): number {
-    const factor = 2;
+    const factor = 4;
     let num = Math.random() * factor;
     num *= Math.floor(Math.random() * 2) === 1 ? 1 : -1
     return num
@@ -179,19 +188,23 @@ function makeRandomMoves() {
     window.setInterval(function () {
         const el = els[Math.floor(Math.random() * els.length)];
         moveRandomly(el);
-    }, 10);
+    }, 5);
 }
 
 function slowlyLoseIt(spanEl: HTMLSpanElement) {
-    spanEl.setAttribute('class', 'slowly-lose-it')
+    spanEl.setAttribute('class', 'slowly-lose-it');
     spanEl.style.setProperty('position', 'relative');
     spanEl.style.setProperty('top', '0px');
     spanEl.style.setProperty('left', '0px');
-    spanEl.style.setProperty('transition', 'all 1s');
 }
 
-
-// Decompose the text in a DOM
+//
+// 
+// 
+// Decompose page and wrap individual letters
+// 
+// 
+// 
 
 function textFilter(node: Node) {
     if (
@@ -268,5 +281,62 @@ function doThisToEveryLetter(transformFunc: Function, cb: Function) {
     cb();
 };
 
+//
+// 
+// 
+// Example: spring back
+// 
+// 
+// 
+
+function springBackWrap(spanEl: HTMLSpanElement) {
+    spanEl.setAttribute('class', 'springy');
+    spanEl.setAttribute('draggable', 'true');
+    let draggedTop, draggedLeft;
+
+    spanEl.addEventListener('dragstart', function(e) {
+        console.log(e);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 50;
+
+        let ctx = canvas.getContext("2d");
+  ctx.lineWidth = 4;
+  ctx.moveTo(0, 0);
+  ctx.lineTo(50, 50);
+  ctx.moveTo(0, 50);
+  ctx.lineTo(50, 0);
+  ctx.stroke();
+
+        e.dataTransfer.setDragImage(canvas, 0, 0);
+
+        draggedTop = e.target.offsetTop;
+        draggedLeft = e.target.offsetLeft;
+        spanEl.style.setProperty('position', 'relative');
+    });
+
+    spanEl.addEventListener('drag', function(e) {
+        console.log(e);
+        spanEl.style.setProperty('top', `${e.offsetY - draggedTop}px`);
+        spanEl.style.setProperty('left', `${e.offsetX - draggedLeft}px`);
+    });
+}
+
+
+function springBack() {
+    const letters = document.getElementsByClassName('springy');
+    // console.log(letters);
+    
+}
+
+//
+// 
+// 
+// Initializers
+// 
+// 
+// 
+
 // doThisToEveryLetter(ransomify);
 doThisToEveryLetter(slowlyLoseIt, makeRandomMoves);
+// doThisToEveryLetter(springBackWrap, springBack);
