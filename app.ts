@@ -177,13 +177,7 @@ function slowlyLoseIt(spanEl: HTMLSpanElement) {
     spanEl.style.setProperty('left', '0px');
 }
 
-//
-//
-//
-// Decompose page and wrap individual letters
-//
-//
-//
+// Decomposer
 
 function textFilter(node: Node) {
     if (
@@ -208,7 +202,24 @@ function textFilter(node: Node) {
             'b',
             'strong',
             'em',
-            'pre'
+            'pre',
+            'footer',
+            'cite',
+            'time',
+            'abbr',
+            'del',
+            'sub',
+            'dd',
+            'dt',
+            'legend',
+            'q',
+            'mark',
+            'samp',
+            'ins',
+            'var',
+            'i',
+            'dfn',
+            'code'
         ].includes(node.parentElement!.localName)
     ) {
         return NodeFilter.FILTER_ACCEPT;
@@ -261,19 +272,14 @@ function wrapCharacters(className: string): Promise<string> {
     });
 }
 
-// //
-// //
-// //
-// // Initializers
-// //
-// //
-// //
-wrapCharacters('all-chars').then((className) => {
-    const elems = document.getElementsByClassName(className);
-    for (let index = 0; index < elems.length; index++) {
-        const element = elems[index] as HTMLSpanElement;
-        ransomify(element);
-        //slowlyLoseIt(element);
-    }
-    //makeRandomMoves(elems);
-});
+// Demo
+
+// wrapCharacters('all-chars').then((className) => {
+//     const elems = document.getElementsByClassName(className);
+//     for (let index = 0; index < elems.length; index++) {
+//         const element = elems[index] as HTMLSpanElement;
+//         ransomify(element);
+//         //slowlyLoseIt(element);
+//     }
+//     //makeRandomMoves(elems);
+// });
