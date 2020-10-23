@@ -1,4 +1,93 @@
 "use strict";
+// WRAPPER
+function textFilter(node) {
+    if ([
+        'p',
+        'span',
+        'label',
+        'a',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'td',
+        'li',
+        'section',
+        'div',
+        'input',
+        'button',
+        'label',
+        'b',
+        'strong',
+        'em',
+        'pre',
+        'footer',
+        'cite',
+        'time',
+        'abbr',
+        'del',
+        'sub',
+        'dd',
+        'dt',
+        'legend',
+        'q',
+        'mark',
+        'samp',
+        'ins',
+        'var',
+        'i',
+        'dfn',
+        'code'
+    ].includes(node.parentElement.localName)) {
+        return NodeFilter.FILTER_ACCEPT;
+    }
+    else {
+        return NodeFilter.FILTER_SKIP;
+    }
+}
+function getTextNodes() {
+    var walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: textFilter }, true);
+    var n, a = [];
+    while ((n = walk.nextNode()))
+        a.push(n);
+    return a;
+}
+function shouldWrap(className) {
+    return document.getElementsByClassName(className).length === 0;
+}
+function wrapCharacters(className) {
+    return new Promise((resolve, reject) => {
+        // Get all text nodes in DOM
+        let textNodes = getTextNodes();
+        for (let textNode of textNodes) {
+            // Split node up into individual letters
+            let text = textNode.textContent;
+            let textArray = text?.split('');
+            // Generate the new element for each letter.
+            textArray?.map((char) => {
+                const elemChar = document.createElement('span');
+                const isEmptySpace = char === ' ' || char === '\n';
+                elemChar.textContent = char;
+                if (!isEmptySpace) {
+                    elemChar.setAttribute('class', className);
+                }
+                textNode.parentNode?.insertBefore(elemChar, textNode);
+                return elemChar;
+            });
+            textNode.parentNode?.removeChild(textNode);
+        }
+        resolve(className);
+    });
+}
+function deployWrapperFunction(className, wrapperFunc) {
+    const elems = document.getElementsByClassName(className);
+    for (let index = 0; index < elems.length; index++) {
+        const element = elems[index];
+        wrapperFunc(element);
+    }
+}
 // RANSOMIFY
 const hex2Rgb = function (hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -126,6 +215,15 @@ function ransomify(spanEl) {
     spanEl.style.setProperty('padding', '0 1px;');
     spanEl.style.setProperty('box-shadow', '0px 1px 0px 0px #0000003');
 }
+async function ransomifyAll(className) {
+    if (shouldWrap(className)) {
+        await wrapCharacters(className);
+        deployWrapperFunction(className, ransomify);
+    }
+    else {
+        deployWrapperFunction(className, ransomify);
+    }
+}
 // SLOWLY LOSE IT
 function getRandomDistance() {
     const factor = 4;
@@ -135,16 +233,19 @@ function getRandomDistance() {
 }
 function moveRandomly(el) {
     const directions = ['top', 'left'];
-    for (let prop of directions) {
+    for (const prop of directions) {
         const pos = el.style[prop];
         const pos_ = parseInt(pos.substr(0, pos.length - 2)) + getRandomDistance();
         el.style.setProperty(prop, `${pos_}px`);
     }
 }
-function makeRandomMoves(els) {
+function genRandomMoves(className) {
+    const elems = document.getElementsByClassName(className);
     window.setInterval(function () {
-        const el = els[Math.floor(Math.random() * els.length)];
+        const el = elems[Math.floor(Math.random() * elems.length)];
         moveRandomly(el);
+        console.log('Moved element');
+        console.log(el.style.getPropertyValue('top') === '');
     }, 5);
 }
 function slowlyLoseIt(spanEl) {
@@ -152,92 +253,16 @@ function slowlyLoseIt(spanEl) {
     spanEl.style.setProperty('top', '0px');
     spanEl.style.setProperty('left', '0px');
 }
-// Decomposer
-function textFilter(node) {
-    if ([
-        'p',
-        'span',
-        'label',
-        'a',
-        'h1',
-        'h2',
-        'h3',
-        'h4',
-        'h5',
-        'h6',
-        'td',
-        'li',
-        'section',
-        'div',
-        'input',
-        'button',
-        'label',
-        'b',
-        'strong',
-        'em',
-        'pre',
-        'footer',
-        'cite',
-        'time',
-        'abbr',
-        'del',
-        'sub',
-        'dd',
-        'dt',
-        'legend',
-        'q',
-        'mark',
-        'samp',
-        'ins',
-        'var',
-        'i',
-        'dfn',
-        'code'
-    ].includes(node.parentElement.localName)) {
-        return NodeFilter.FILTER_ACCEPT;
+async function slowlyLoseItAll(className) {
+    if (shouldWrap(className)) {
+        await wrapCharacters(className);
+        deployWrapperFunction(className, slowlyLoseIt);
+        genRandomMoves(className);
     }
     else {
-        return NodeFilter.FILTER_SKIP;
+        deployWrapperFunction(className, slowlyLoseIt);
+        genRandomMoves(className);
     }
 }
-function getTextNodes() {
-    var walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: textFilter }, true);
-    var n, a = [];
-    while ((n = walk.nextNode()))
-        a.push(n);
-    return a;
-}
-function wrapCharacters(className) {
-    return new Promise((resolve, reject) => {
-        // Get all text nodes in DOM
-        let textNodes = getTextNodes();
-        for (let textNode of textNodes) {
-            // Split node up into individual letters
-            let text = textNode.textContent;
-            let textArray = text?.split('');
-            // Generate the new element for each letter.
-            textArray?.map((char) => {
-                const elemChar = document.createElement('span');
-                const isEmptySpace = char === ' ' || char === '\n';
-                elemChar.textContent = char;
-                if (!isEmptySpace) {
-                    elemChar.setAttribute('class', className);
-                }
-                textNode.parentNode?.insertBefore(elemChar, textNode);
-                return elemChar;
-            });
-            textNode.parentNode?.removeChild(textNode);
-        }
-        resolve(className);
-    });
-}
-// Demo
-// wrapCharacters('all-chars').then((className) => {
-//     const elems = document.getElementsByClassName(className);
-//     for (let index = 0; index < elems.length; index++) {
-//         const element = elems[index] as HTMLSpanElement;
-//         ransomify(element);
-//         //slowlyLoseIt(element);
-//     }
-//     //makeRandomMoves(elems);
-// });
+ransomifyAll('all-chars');
+slowlyLoseItAll('all-chars');
