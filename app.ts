@@ -286,12 +286,17 @@ function moveRandomly(el: HTMLElement) {
 function genRandomMoves(className: string) {
     const elems = document.getElementsByClassName(className);
     window.setInterval(function () {
+<<<<<<< HEAD
         const el = elems[
             Math.floor(Math.random() * elems.length)
         ] as HTMLElement;
         moveRandomly(el);
         console.log('Moved element');
         console.log(el.style.getPropertyValue('top') === '');
+=======
+        const el = els[Math.floor(Math.random() * els.length)];
+        moveRandomly(el as HTMLElement);
+>>>>>>> 6704120b0fe63ad3c992406317db57d5d6892c50
     }, 5);
 }
 
@@ -312,5 +317,63 @@ async function slowlyLoseItAll(className: string) {
     }
 }
 
+<<<<<<< HEAD
 ransomifyAll('all-chars');
 slowlyLoseItAll('all-chars');
+=======
+function getTextNodes(): Node[] {
+    var walk = document.createTreeWalker(
+        document.body,
+        NodeFilter.SHOW_TEXT,
+        { acceptNode: textFilter },
+        true
+    );
+    var n,
+        a = [];
+
+    while ((n = walk.nextNode())) a.push(n);
+    return a;
+}
+
+function wrapCharacters(className: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        // Get all text nodes in DOM
+        let textNodes = getTextNodes();
+
+        for (let textNode of textNodes) {
+            // Split node up into individual letters
+            let text = textNode.textContent;
+            let textArray = text?.split('');
+
+            // Generate the new element for each letter.
+            textArray?.map((char: string) => {
+                const elemChar = document.createElement('span');
+                const isEmptySpace = char === ' ' || char === '\n';
+                elemChar.textContent = char;
+
+                if (!isEmptySpace) {
+                    elemChar.setAttribute('class', className);
+                }
+
+                textNode.parentNode?.insertBefore(elemChar, textNode);
+                return elemChar;
+            });
+
+            textNode.parentNode?.removeChild(textNode);
+        }
+        resolve(className);
+    });
+}
+
+// Demo
+// 
+// wrapCharacters('all-chars').then((className) => {
+//     const elems = document.getElementsByClassName(className);
+//     for (let index = 0; index < elems.length; index++) {
+//         const element = elems[index] as HTMLSpanElement;
+//         // ransomify(element);
+//         slowlyLoseIt(element);
+//     }
+//     makeRandomMoves(elems);
+// });
+>>>>>>> 6704120b0fe63ad3c992406317db57d5d6892c50
