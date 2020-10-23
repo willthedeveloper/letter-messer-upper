@@ -286,17 +286,12 @@ function moveRandomly(el: HTMLElement) {
 function genRandomMoves(className: string) {
     const elems = document.getElementsByClassName(className);
     window.setInterval(function () {
-<<<<<<< HEAD
         const el = elems[
             Math.floor(Math.random() * elems.length)
         ] as HTMLElement;
         moveRandomly(el);
         console.log('Moved element');
         console.log(el.style.getPropertyValue('top') === '');
-=======
-        const el = els[Math.floor(Math.random() * els.length)];
-        moveRandomly(el as HTMLElement);
->>>>>>> 6704120b0fe63ad3c992406317db57d5d6892c50
     }, 5);
 }
 
@@ -317,5 +312,5 @@ async function slowlyLoseItAll(className: string) {
     }
 }
 
-// ransomifyAll('all-chars');
-// slowlyLoseItAll('all-chars');
+ransomifyAll('all-chars');
+slowlyLoseItAll('all-chars');

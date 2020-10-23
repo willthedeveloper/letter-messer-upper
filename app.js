@@ -264,5 +264,5 @@ async function slowlyLoseItAll(className) {
         genRandomMoves(className);
     }
 }
-// ransomifyAll('all-chars');
-// slowlyLoseItAll('all-chars');
+ransomifyAll('all-chars');
+slowlyLoseItAll('all-chars');
