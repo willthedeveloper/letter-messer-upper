@@ -264,5 +264,30 @@ async function slowlyLoseItAll(className) {
         genRandomMoves(className);
     }
 }
+// SOLAR FLARES
+function selectForFlare(className) {
+    const elems = document.getElementsByClassName(className);
+    window.setInterval(function () {
+        const el = elems[Math.floor(Math.random() * elems.length)];
+        solarFlare(el);
+    }, 1000);
+}
+function solarFlare(spanEl) {
+    spanEl.style.setProperty('transition', 'box-shadow 1s');
+    spanEl.style.setProperty('box-shadow', '0 0 1000px 500px yellow');
+    window.setTimeout(function () {
+        spanEl.style.setProperty('box-shadow', 'none');
+    }, 1000);
+}
+async function solarFlareAll(className) {
+    if (shouldWrap(className)) {
+        await wrapCharacters(className);
+        selectForFlare(className);
+    }
+    else {
+        selectForFlare(className);
+    }
+}
 // ransomifyAll('all-chars');
 // slowlyLoseItAll('all-chars');
+// solarFlareAll('all-chars');
