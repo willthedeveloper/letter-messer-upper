@@ -312,5 +312,5 @@ async function slowlyLoseItAll(className: string) {
     }
 }
 
-ransomifyAll('all-chars');
-slowlyLoseItAll('all-chars');
+// ransomifyAll('all-chars');
+// slowlyLoseItAll('all-chars');

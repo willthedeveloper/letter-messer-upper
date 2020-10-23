@@ -1,12 +1,14 @@
 # letter-messer.upper.js
-## Screw up any website, letter by letter.
+
 Create bookmarklets that control every letter on any webpage.
 
-## Development
-Install dependencies: `npm install`
-Run local development server: `npm start`
+[Demo site](https://letter-messer-upper.surge.sh)
 
-## Todo
--   Make web page with combinable links
--   Add additional example
--   Add explainer on web page / github
+### Development
+  - Install dependencies: `npm install`
+  - Run local development server: `npm start`
+
+### Todo
+- Host it!
+- Add additional example
+- Will's gulp stuff
