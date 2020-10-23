@@ -273,13 +273,13 @@ function wrapCharacters(className: string): Promise<string> {
 }
 
 // Demo
-
+// 
 // wrapCharacters('all-chars').then((className) => {
 //     const elems = document.getElementsByClassName(className);
 //     for (let index = 0; index < elems.length; index++) {
 //         const element = elems[index] as HTMLSpanElement;
-//         ransomify(element);
-//         //slowlyLoseIt(element);
+//         // ransomify(element);
+//         slowlyLoseIt(element);
 //     }
-//     //makeRandomMoves(elems);
+//     makeRandomMoves(elems);
 // });
