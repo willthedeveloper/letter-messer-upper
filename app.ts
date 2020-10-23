@@ -167,7 +167,7 @@ function moveRandomly(el: HTMLElement) {
 function makeRandomMoves(els: HTMLCollectionOf<Element>) {
     window.setInterval(function () {
         const el = els[Math.floor(Math.random() * els.length)];
-        moveRandomly(el);
+        moveRandomly(el as HTMLElement);
     }, 5);
 }
 

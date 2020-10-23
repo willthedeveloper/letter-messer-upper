@@ -1,8 +1,8 @@
-.container {
+/* .container {
     max-width: 900px;
     margin: auto;
     padding: 0 40px;
-}
+} */
 
 .bookmarklets ul {
     padding: 0;
@@ -15,6 +15,7 @@
 
 .example {
     border: 1px solid gray;
+    padding: 40px;
 }
 
 h3 {
