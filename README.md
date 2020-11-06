@@ -24,9 +24,3 @@ We've taken care of the first two steps, while the third is where your creativit
 Take note of the "buildYourOwnEdits" function defined at line 110 of the "buildYourOwn.js" file. Here, you'll see some commented out code, where each line applies a CSS property to your the individual text character span elements. By making edits to this function, you'll have created your own custom letter-messer-upper. Then, you can run it on the demo site by clicking the button outlined near the top of the page.
 
 For more advanced examples, you can take a look at the ransomify, move-a-little, and solar-flare examples in the codebase.
-
-### Todo
-
--   Host it!
--   Add additional example
--   Will's gulp stuff
