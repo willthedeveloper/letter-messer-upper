@@ -1,4 +1,4 @@
-# letter-messer.upper.js
+# letter-messer-upper
 
 Create bookmarklets that control every letter on any webpage.
 
