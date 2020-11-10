@@ -15,507 +15,510 @@
         <h1>letter-messer-upper.js</h1>
         <h4>Screw up any website, letter by letter.</h4>
     </header>
-    <h2>
-        Build your own!
-    </h2>
-    <div>
-        Click <button onclick="buildYourOwn()">here</button> to test your very own letter messer upper.
-    </div>
-    <h2>
-        Examples
-    </h2>
-    <p>
-        Save these links to your bookmarks, then navigate to, then click one
-        of the links:
-    </p>
-    <div class="bookmarklets">
-        <ul>
-            <li>
-                <a
-                    href="javascript:(function()%7B%22use%20strict%22%3B%0A%2F%2F%20WRAPPER%0Afunction%20textFilter(node)%20%7B%0A%20%20%20%20if%20(%5B%0A%20%20%20%20%20%20%20%20'p'%2C%0A%20%20%20%20%20%20%20%20'span'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'a'%2C%0A%20%20%20%20%20%20%20%20'h1'%2C%0A%20%20%20%20%20%20%20%20'h2'%2C%0A%20%20%20%20%20%20%20%20'h3'%2C%0A%20%20%20%20%20%20%20%20'h4'%2C%0A%20%20%20%20%20%20%20%20'h5'%2C%0A%20%20%20%20%20%20%20%20'h6'%2C%0A%20%20%20%20%20%20%20%20'td'%2C%0A%20%20%20%20%20%20%20%20'li'%2C%0A%20%20%20%20%20%20%20%20'section'%2C%0A%20%20%20%20%20%20%20%20'div'%2C%0A%20%20%20%20%20%20%20%20'input'%2C%0A%20%20%20%20%20%20%20%20'button'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'b'%2C%0A%20%20%20%20%20%20%20%20'strong'%2C%0A%20%20%20%20%20%20%20%20'em'%2C%0A%20%20%20%20%20%20%20%20'pre'%2C%0A%20%20%20%20%20%20%20%20'footer'%2C%0A%20%20%20%20%20%20%20%20'cite'%2C%0A%20%20%20%20%20%20%20%20'time'%2C%0A%20%20%20%20%20%20%20%20'abbr'%2C%0A%20%20%20%20%20%20%20%20'del'%2C%0A%20%20%20%20%20%20%20%20'sub'%2C%0A%20%20%20%20%20%20%20%20'dd'%2C%0A%20%20%20%20%20%20%20%20'dt'%2C%0A%20%20%20%20%20%20%20%20'legend'%2C%0A%20%20%20%20%20%20%20%20'q'%2C%0A%20%20%20%20%20%20%20%20'mark'%2C%0A%20%20%20%20%20%20%20%20'samp'%2C%0A%20%20%20%20%20%20%20%20'ins'%2C%0A%20%20%20%20%20%20%20%20'var'%2C%0A%20%20%20%20%20%20%20%20'i'%2C%0A%20%20%20%20%20%20%20%20'dfn'%2C%0A%20%20%20%20%20%20%20%20'code'%0A%20%20%20%20%5D.includes(node.parentElement.localName))%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_ACCEPT%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_SKIP%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20getTextNodes()%20%7B%0A%20%20%20%20var%20walk%20%3D%20document.createTreeWalker(document.body%2C%20NodeFilter.SHOW_TEXT%2C%20%7B%20acceptNode%3A%20textFilter%20%7D%2C%20true)%3B%0A%20%20%20%20var%20n%2C%20a%20%3D%20%5B%5D%3B%0A%20%20%20%20while%20((n%20%3D%20walk.nextNode()))%0A%20%20%20%20%20%20%20%20a.push(n)%3B%0A%20%20%20%20return%20a%3B%0A%7D%0Afunction%20shouldWrap(className)%20%7B%0A%20%20%20%20return%20document.getElementsByClassName(className).length%20%3D%3D%3D%200%3B%0A%7D%0Afunction%20wrapCharacters(className)%20%7B%0A%20%20%20%20return%20new%20Promise((resolve%2C%20reject)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20Get%20all%20text%20nodes%20in%20DOM%0A%20%20%20%20%20%20%20%20let%20textNodes%20%3D%20getTextNodes()%3B%0A%20%20%20%20%20%20%20%20for%20(let%20textNode%20of%20textNodes)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Split%20node%20up%20into%20individual%20letters%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20text%20%3D%20textNode.textContent%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20textArray%20%3D%20text%3F.split('')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Generate%20the%20new%20element%20for%20each%20letter.%0A%20%20%20%20%20%20%20%20%20%20%20%20textArray%3F.map((char)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20elemChar%20%3D%20document.createElement('span')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20isEmptySpace%20%3D%20char%20%3D%3D%3D%20'%20'%20%7C%7C%20char%20%3D%3D%3D%20'%5Cn'%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.textContent%20%3D%20char%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20if%20(!isEmptySpace)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.setAttribute('class'%2C%20className)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.insertBefore(elemChar%2C%20textNode)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20return%20elemChar%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.removeChild(textNode)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20resolve(className)%3B%0A%20%20%20%20%7D)%3B%0A%7D%0Afunction%20deployWrapperFunction(className%2C%20wrapperFunc)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20for%20(let%20index%20%3D%200%3B%20index%20%3C%20elems.length%3B%20index%2B%2B)%20%7B%0A%20%20%20%20%20%20%20%20const%20element%20%3D%20elems%5Bindex%5D%3B%0A%20%20%20%20%20%20%20%20wrapperFunc(element)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20RANSOMIFY%0Aconst%20hex2Rgb%20%3D%20function%20(hex)%20%7B%0A%20%20%20%20const%20result%20%3D%20%2F%5E%23%3F(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)%24%2Fi.exec(hex)%3B%0A%20%20%20%20return%20result%0A%20%20%20%20%20%20%20%20%3F%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20r%3A%20parseInt(result%5B1%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20g%3A%20parseInt(result%5B2%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20b%3A%20parseInt(result%5B3%5D%2C%2016)%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%3A%20%7B%20r%3A%200%2C%20g%3A%200%2C%20b%3A%200%20%7D%3B%0A%7D%3B%0Afunction%20luminance(r%2C%20g%2C%20b)%20%7B%0A%20%20%20%20const%20a%20%3D%20%5Br%2C%20g%2C%20b%5D.map(function%20(v)%20%7B%0A%20%20%20%20%20%20%20%20v%20%2F%3D%20255%3B%0A%20%20%20%20%20%20%20%20return%20v%20%3C%3D%200.03928%20%3F%20v%20%2F%2012.92%20%3A%20Math.pow((v%20%2B%200.055)%20%2F%201.055%2C%202.4)%3B%0A%20%20%20%20%7D)%3B%0A%20%20%20%20return%20a%5B0%5D%20*%200.2126%20%2B%20a%5B1%5D%20*%200.7152%20%2B%20a%5B2%5D%20*%200.0722%3B%0A%7D%0Afunction%20contrast(rgb1%2C%20rgb2)%20%7B%0A%20%20%20%20const%20lum1%20%3D%20luminance(rgb1.r%2C%20rgb1.g%2C%20rgb1.b)%3B%0A%20%20%20%20const%20lum2%20%3D%20luminance(rgb2.r%2C%20rgb2.g%2C%20rgb2.b)%3B%0A%20%20%20%20const%20brightest%20%3D%20Math.max(lum1%2C%20lum2)%3B%0A%20%20%20%20const%20darkest%20%3D%20Math.min(lum1%2C%20lum2)%3B%0A%20%20%20%20return%20(brightest%20%2B%200.05)%20%2F%20(darkest%20%2B%200.05)%3B%0A%7D%0Afunction%20setFontColors(elemChar)%20%7B%0A%20%20%20%20let%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20let%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20while%20(contrast(hex2Rgb(fontColor)%2C%20hex2Rgb(fontBackgroundColor))%20%3C%206)%20%7B%0A%20%20%20%20%20%20%20%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%20%20%20%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%7D%0A%20%20%20%20elemChar.style.setProperty('color'%2C%20fontColor)%3B%0A%20%20%20%20elemChar.style.setProperty('background-color'%2C%20fontBackgroundColor)%3B%0A%7D%0Afunction%20getRandomFromArray(array)%20%7B%0A%20%20%20%20return%20array%5BMath.floor(Math.random()%20*%20array.length)%5D%3B%0A%7D%0Afunction%20randomPixelSizeGen(multiplier%2C%20sizeFloor)%20%7B%0A%20%20%20%20const%20randomNum%20%3D%20Math.floor(Math.random()%20*%20multiplier)%3B%0A%20%20%20%20return%20randomNum%20%3E%20sizeFloor%0A%20%20%20%20%20%20%20%20%3F%20randomNum.toString()%20%2B%20'px'%0A%20%20%20%20%20%20%20%20%3A%20sizeFloor.toString()%20%2B%20'px'%3B%0A%7D%0Afunction%20randomColorGen()%20%7B%0A%20%20%20%20const%20colorArray%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'%23ffaf12'%2C%0A%20%20%20%20%20%20%20%20'%2334558b'%2C%0A%20%20%20%20%20%20%20%20'%234ec5a5'%2C%0A%20%20%20%20%20%20%20%20'%23565d47'%2C%0A%20%20%20%20%20%20%20%20'%23798fa8'%2C%0A%20%20%20%20%20%20%20%20'%23fd823e'%2C%0A%20%20%20%20%20%20%20%20'%23117893'%2C%0A%20%20%20%20%20%20%20%20'%23f0daa4'%2C%0A%20%20%20%20%20%20%20%20'%23eaac9d'%2C%0A%20%20%20%20%20%20%20%20'%23a2553a'%2C%0A%20%20%20%20%20%20%20%20'%2372617d'%2C%0A%20%20%20%20%20%20%20%20'%23b49c73'%2C%0A%20%20%20%20%20%20%20%20'%233b3d4b'%2C%0A%20%20%20%20%20%20%20%20'%23eff0f1'%2C%0A%20%20%20%20%20%20%20%20'%23a09d9c'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(colorArray)%3B%0A%7D%0Afunction%20randomFontCapitalizationGen()%20%7B%0A%20%20%20%20return%20Math.round(Math.random())%20%3D%3D%3D%201%20%3F%20'uppercase'%20%3A%20'lowercase'%3B%0A%7D%0Afunction%20randomFontGen()%20%7B%0A%20%20%20%20const%20fonts%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'Agency%20FB'%2C%0A%20%20%20%20%20%20%20%20'Albertina'%2C%0A%20%20%20%20%20%20%20%20'Antiqua'%2C%0A%20%20%20%20%20%20%20%20'Architect'%2C%0A%20%20%20%20%20%20%20%20'Arial'%2C%0A%20%20%20%20%20%20%20%20'BankFuturistic'%2C%0A%20%20%20%20%20%20%20%20'BankGothic'%2C%0A%20%20%20%20%20%20%20%20'Blackletter'%2C%0A%20%20%20%20%20%20%20%20'Blagovest'%2C%0A%20%20%20%20%20%20%20%20'Calibri'%2C%0A%20%20%20%20%20%20%20%20'Comic%20Sans%20MS'%2C%0A%20%20%20%20%20%20%20%20'Consolas'%2C%0A%20%20%20%20%20%20%20%20'Courier'%2C%0A%20%20%20%20%20%20%20%20'Cursive'%2C%0A%20%20%20%20%20%20%20%20'Decorative'%2C%0A%20%20%20%20%20%20%20%20'Fantasy'%2C%0A%20%20%20%20%20%20%20%20'Fraktur'%2C%0A%20%20%20%20%20%20%20%20'Frosty'%2C%0A%20%20%20%20%20%20%20%20'Garamond'%2C%0A%20%20%20%20%20%20%20%20'Georgia'%2C%0A%20%20%20%20%20%20%20%20'Helvetica'%2C%0A%20%20%20%20%20%20%20%20'Impact'%2C%0A%20%20%20%20%20%20%20%20'Minion'%2C%0A%20%20%20%20%20%20%20%20'Modern'%2C%0A%20%20%20%20%20%20%20%20'Monospace'%2C%0A%20%20%20%20%20%20%20%20'Open%20Sans'%2C%0A%20%20%20%20%20%20%20%20'Palatino'%2C%0A%20%20%20%20%20%20%20%20'Perpetua'%2C%0A%20%20%20%20%20%20%20%20'Roman'%2C%0A%20%20%20%20%20%20%20%20'Sans-serif'%2C%0A%20%20%20%20%20%20%20%20'Serif'%2C%0A%20%20%20%20%20%20%20%20'Script'%2C%0A%20%20%20%20%20%20%20%20'Swiss'%2C%0A%20%20%20%20%20%20%20%20'Tahoma'%2C%0A%20%20%20%20%20%20%20%20'Times'%2C%0A%20%20%20%20%20%20%20%20'Times%20New%20Roman'%2C%0A%20%20%20%20%20%20%20%20'Tw%20Cen%20MT'%2C%0A%20%20%20%20%20%20%20%20'Verdana'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(fonts)%3B%0A%7D%0Afunction%20randomRotationGen()%20%7B%0A%20%20%20%20return%20%60rotate(%24%7BMath.random()%20*%204%20-%20Math.random()%20*%204%7Ddeg)%60%3B%0A%7D%0Afunction%20ransomify(spanEl)%20%7B%0A%20%20%20%20setFontColors(spanEl)%3B%0A%20%20%20%20spanEl.style.setProperty('font-family'%2C%20randomFontGen())%3B%0A%20%20%20%20spanEl.style.setProperty('text-transform'%2C%20randomFontCapitalizationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('right'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('bottom'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('font-size'%2C%20randomPixelSizeGen(20%2C%2015))%3B%0A%20%20%20%20spanEl.style.setProperty('transform'%2C%20randomRotationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('display'%2C%20'inline-block')%3B%0A%20%20%20%20spanEl.style.setProperty('padding'%2C%20'0%201px%3B')%3B%0A%20%20%20%20spanEl.style.setProperty('box-shadow'%2C%20'0px%201px%200px%200px%20%230000003')%3B%0A%7D%0Aasync%20function%20ransomifyAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20SLOWLY%20LOSE%20IT%0Afunction%20getRandomDistance()%20%7B%0A%20%20%20%20const%20factor%20%3D%204%3B%0A%20%20%20%20let%20num%20%3D%20Math.random()%20*%20factor%3B%0A%20%20%20%20num%20*%3D%20Math.floor(Math.random()%20*%202)%20%3D%3D%3D%201%20%3F%201%20%3A%20-1%3B%0A%20%20%20%20return%20num%3B%0A%7D%0Afunction%20moveRandomly(el)%20%7B%0A%20%20%20%20const%20directions%20%3D%20%5B'top'%2C%20'left'%5D%3B%0A%20%20%20%20for%20(const%20prop%20of%20directions)%20%7B%0A%20%20%20%20%20%20%20%20const%20pos%20%3D%20el.style%5Bprop%5D%3B%0A%20%20%20%20%20%20%20%20const%20pos_%20%3D%20parseInt(pos.substr(0%2C%20pos.length%20-%202))%20%2B%20getRandomDistance()%3B%0A%20%20%20%20%20%20%20%20el.style.setProperty(prop%2C%20%60%24%7Bpos_%7Dpx%60)%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20genRandomMoves(className)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20window.setInterval(function%20()%20%7B%0A%20%20%20%20%20%20%20%20const%20el%20%3D%20elems%5BMath.floor(Math.random()%20*%20elems.length)%5D%3B%0A%20%20%20%20%20%20%20%20moveRandomly(el)%3B%0A%20%20%20%20%20%20%20%20console.log('Moved%20element')%3B%0A%20%20%20%20%20%20%20%20console.log(el.style.getPropertyValue('top')%20%3D%3D%3D%20'')%3B%0A%20%20%20%20%7D%2C%205)%3B%0A%7D%0Afunction%20slowlyLoseIt(spanEl)%20%7B%0A%20%20%20%20spanEl.style.setProperty('position'%2C%20'relative')%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20'0px')%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20'0px')%3B%0A%7D%0Aasync%20function%20slowlyLoseItAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%7D%0AransomifyAll('all-chars')%3B%7D)()%3B">
-                    <span style="
-                                color: rgb(59, 61, 75);
-                                background-color: rgb(240, 218, 164);
-                                font-family: 'Tw Cen MT';
-                                text-transform: lowercase;
-                                top: 2px;
-                                left: 2px;
-                                right: 1px;
-                                bottom: 1px;
-                                font-size: 15px;
-                                transform: rotate(-0.285048deg);
-                                display: inline-block;
-                            ">r</span><span style="
-                                color: rgb(86, 93, 71);
-                                background-color: rgb(239, 240, 241);
-                                font-family: Modern;
-                                text-transform: uppercase;
-                                top: 1px;
-                                left: 1px;
-                                right: 1px;
-                                bottom: 1px;
-                                font-size: 15px;
-                                transform: rotate(2.24228deg);
-                                display: inline-block;
-                            ">a</span><span style="
-                                color: rgb(86, 93, 71);
-                                background-color: rgb(239, 240, 241);
-                                font-family: Consolas;
-                                text-transform: uppercase;
-                                top: 1px;
-                                left: 1px;
-                                right: 1px;
-                                bottom: 1px;
-                                font-size: 18px;
-                                transform: rotate(1.13623deg);
-                                display: inline-block;
-                            ">n</span><span style="
-                                color: rgb(239, 240, 241);
-                                background-color: rgb(52, 85, 139);
-                                font-family: BankGothic;
-                                text-transform: uppercase;
-                                top: 1px;
-                                left: 1px;
-                                right: 1px;
-                                bottom: 1px;
-                                font-size: 15px;
-                                transform: rotate(-0.0201059deg);
-                                display: inline-block;
-                            ">s</span><span style="
-                                color: rgb(59, 61, 75);
-                                background-color: rgb(240, 218, 164);
-                                font-family: Roman;
-                                text-transform: lowercase;
-                                top: 2px;
-                                left: 1px;
-                                right: 2px;
-                                bottom: 2px;
-                                font-size: 15px;
-                                transform: rotate(-1.48498deg);
-                                display: inline-block;
-                            ">o</span><span style="
-                                color: rgb(59, 61, 75);
-                                background-color: rgb(240, 218, 164);
-                                font-family: Arial;
-                                text-transform: lowercase;
-                                top: 2px;
-                                left: 1px;
-                                right: 1px;
-                                bottom: 1px;
-                                font-size: 15px;
-                                transform: rotate(3.64499deg);
-                                display: inline-block;
-                            ">m</span><span style="
-                                color: rgb(52, 85, 139);
-                                background-color: rgb(239, 240, 241);
-                                font-family: Decorative;
-                                text-transform: lowercase;
-                                top: 1px;
-                                left: 1px;
-                                right: 2px;
-                                bottom: 1px;
-                                font-size: 15px;
-                                transform: rotate(-0.711941deg);
-                                display: inline-block;
-                            ">i</span><span style="
-                                color: rgb(52, 85, 139);
-                                background-color: rgb(239, 240, 241);
-                                font-family: Times;
-                                text-transform: uppercase;
-                                top: 1px;
-                                left: 1px;
-                                right: 1px;
-                                bottom: 2px;
-                                font-size: 15px;
-                                transform: rotate(-3.33679deg);
-                                display: inline-block;
-                            ">f</span><span style="
-                                color: rgb(86, 93, 71);
-                                background-color: rgb(239, 240, 241);
-                                font-family: Albertina;
-                                text-transform: uppercase;
-                                top: 1px;
-                                left: 1px;
-                                right: 1px;
-                                bottom: 1px;
-                                font-size: 15px;
-                                transform: rotate(-2.66254deg);
-                                display: inline-block;
-                            ">y</span></a>
-            </li>
-            <li>
-                <a
-                    href="javascript:(function()%7B%22use%20strict%22%3B%0A%2F%2F%20WRAPPER%0Afunction%20textFilter(node)%20%7B%0A%20%20%20%20if%20(%5B%0A%20%20%20%20%20%20%20%20'p'%2C%0A%20%20%20%20%20%20%20%20'span'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'a'%2C%0A%20%20%20%20%20%20%20%20'h1'%2C%0A%20%20%20%20%20%20%20%20'h2'%2C%0A%20%20%20%20%20%20%20%20'h3'%2C%0A%20%20%20%20%20%20%20%20'h4'%2C%0A%20%20%20%20%20%20%20%20'h5'%2C%0A%20%20%20%20%20%20%20%20'h6'%2C%0A%20%20%20%20%20%20%20%20'td'%2C%0A%20%20%20%20%20%20%20%20'li'%2C%0A%20%20%20%20%20%20%20%20'section'%2C%0A%20%20%20%20%20%20%20%20'div'%2C%0A%20%20%20%20%20%20%20%20'input'%2C%0A%20%20%20%20%20%20%20%20'button'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'b'%2C%0A%20%20%20%20%20%20%20%20'strong'%2C%0A%20%20%20%20%20%20%20%20'em'%2C%0A%20%20%20%20%20%20%20%20'pre'%2C%0A%20%20%20%20%20%20%20%20'footer'%2C%0A%20%20%20%20%20%20%20%20'cite'%2C%0A%20%20%20%20%20%20%20%20'time'%2C%0A%20%20%20%20%20%20%20%20'abbr'%2C%0A%20%20%20%20%20%20%20%20'del'%2C%0A%20%20%20%20%20%20%20%20'sub'%2C%0A%20%20%20%20%20%20%20%20'dd'%2C%0A%20%20%20%20%20%20%20%20'dt'%2C%0A%20%20%20%20%20%20%20%20'legend'%2C%0A%20%20%20%20%20%20%20%20'q'%2C%0A%20%20%20%20%20%20%20%20'mark'%2C%0A%20%20%20%20%20%20%20%20'samp'%2C%0A%20%20%20%20%20%20%20%20'ins'%2C%0A%20%20%20%20%20%20%20%20'var'%2C%0A%20%20%20%20%20%20%20%20'i'%2C%0A%20%20%20%20%20%20%20%20'dfn'%2C%0A%20%20%20%20%20%20%20%20'code'%0A%20%20%20%20%5D.includes(node.parentElement.localName))%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_ACCEPT%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_SKIP%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20getTextNodes()%20%7B%0A%20%20%20%20var%20walk%20%3D%20document.createTreeWalker(document.body%2C%20NodeFilter.SHOW_TEXT%2C%20%7B%20acceptNode%3A%20textFilter%20%7D%2C%20true)%3B%0A%20%20%20%20var%20n%2C%20a%20%3D%20%5B%5D%3B%0A%20%20%20%20while%20((n%20%3D%20walk.nextNode()))%0A%20%20%20%20%20%20%20%20a.push(n)%3B%0A%20%20%20%20return%20a%3B%0A%7D%0Afunction%20shouldWrap(className)%20%7B%0A%20%20%20%20return%20document.getElementsByClassName(className).length%20%3D%3D%3D%200%3B%0A%7D%0Afunction%20wrapCharacters(className)%20%7B%0A%20%20%20%20return%20new%20Promise((resolve%2C%20reject)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20Get%20all%20text%20nodes%20in%20DOM%0A%20%20%20%20%20%20%20%20let%20textNodes%20%3D%20getTextNodes()%3B%0A%20%20%20%20%20%20%20%20for%20(let%20textNode%20of%20textNodes)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Split%20node%20up%20into%20individual%20letters%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20text%20%3D%20textNode.textContent%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20textArray%20%3D%20text%3F.split('')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Generate%20the%20new%20element%20for%20each%20letter.%0A%20%20%20%20%20%20%20%20%20%20%20%20textArray%3F.map((char)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20elemChar%20%3D%20document.createElement('span')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20isEmptySpace%20%3D%20char%20%3D%3D%3D%20'%20'%20%7C%7C%20char%20%3D%3D%3D%20'%5Cn'%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.textContent%20%3D%20char%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20if%20(!isEmptySpace)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.setAttribute('class'%2C%20className)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.insertBefore(elemChar%2C%20textNode)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20return%20elemChar%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.removeChild(textNode)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20resolve(className)%3B%0A%20%20%20%20%7D)%3B%0A%7D%0Afunction%20deployWrapperFunction(className%2C%20wrapperFunc)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20for%20(let%20index%20%3D%200%3B%20index%20%3C%20elems.length%3B%20index%2B%2B)%20%7B%0A%20%20%20%20%20%20%20%20const%20element%20%3D%20elems%5Bindex%5D%3B%0A%20%20%20%20%20%20%20%20wrapperFunc(element)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20RANSOMIFY%0Aconst%20hex2Rgb%20%3D%20function%20(hex)%20%7B%0A%20%20%20%20const%20result%20%3D%20%2F%5E%23%3F(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)%24%2Fi.exec(hex)%3B%0A%20%20%20%20return%20result%0A%20%20%20%20%20%20%20%20%3F%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20r%3A%20parseInt(result%5B1%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20g%3A%20parseInt(result%5B2%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20b%3A%20parseInt(result%5B3%5D%2C%2016)%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%3A%20%7B%20r%3A%200%2C%20g%3A%200%2C%20b%3A%200%20%7D%3B%0A%7D%3B%0Afunction%20luminance(r%2C%20g%2C%20b)%20%7B%0A%20%20%20%20const%20a%20%3D%20%5Br%2C%20g%2C%20b%5D.map(function%20(v)%20%7B%0A%20%20%20%20%20%20%20%20v%20%2F%3D%20255%3B%0A%20%20%20%20%20%20%20%20return%20v%20%3C%3D%200.03928%20%3F%20v%20%2F%2012.92%20%3A%20Math.pow((v%20%2B%200.055)%20%2F%201.055%2C%202.4)%3B%0A%20%20%20%20%7D)%3B%0A%20%20%20%20return%20a%5B0%5D%20*%200.2126%20%2B%20a%5B1%5D%20*%200.7152%20%2B%20a%5B2%5D%20*%200.0722%3B%0A%7D%0Afunction%20contrast(rgb1%2C%20rgb2)%20%7B%0A%20%20%20%20const%20lum1%20%3D%20luminance(rgb1.r%2C%20rgb1.g%2C%20rgb1.b)%3B%0A%20%20%20%20const%20lum2%20%3D%20luminance(rgb2.r%2C%20rgb2.g%2C%20rgb2.b)%3B%0A%20%20%20%20const%20brightest%20%3D%20Math.max(lum1%2C%20lum2)%3B%0A%20%20%20%20const%20darkest%20%3D%20Math.min(lum1%2C%20lum2)%3B%0A%20%20%20%20return%20(brightest%20%2B%200.05)%20%2F%20(darkest%20%2B%200.05)%3B%0A%7D%0Afunction%20setFontColors(elemChar)%20%7B%0A%20%20%20%20let%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20let%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20while%20(contrast(hex2Rgb(fontColor)%2C%20hex2Rgb(fontBackgroundColor))%20%3C%206)%20%7B%0A%20%20%20%20%20%20%20%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%20%20%20%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%7D%0A%20%20%20%20elemChar.style.setProperty('color'%2C%20fontColor)%3B%0A%20%20%20%20elemChar.style.setProperty('background-color'%2C%20fontBackgroundColor)%3B%0A%7D%0Afunction%20getRandomFromArray(array)%20%7B%0A%20%20%20%20return%20array%5BMath.floor(Math.random()%20*%20array.length)%5D%3B%0A%7D%0Afunction%20randomPixelSizeGen(multiplier%2C%20sizeFloor)%20%7B%0A%20%20%20%20const%20randomNum%20%3D%20Math.floor(Math.random()%20*%20multiplier)%3B%0A%20%20%20%20return%20randomNum%20%3E%20sizeFloor%0A%20%20%20%20%20%20%20%20%3F%20randomNum.toString()%20%2B%20'px'%0A%20%20%20%20%20%20%20%20%3A%20sizeFloor.toString()%20%2B%20'px'%3B%0A%7D%0Afunction%20randomColorGen()%20%7B%0A%20%20%20%20const%20colorArray%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'%23ffaf12'%2C%0A%20%20%20%20%20%20%20%20'%2334558b'%2C%0A%20%20%20%20%20%20%20%20'%234ec5a5'%2C%0A%20%20%20%20%20%20%20%20'%23565d47'%2C%0A%20%20%20%20%20%20%20%20'%23798fa8'%2C%0A%20%20%20%20%20%20%20%20'%23fd823e'%2C%0A%20%20%20%20%20%20%20%20'%23117893'%2C%0A%20%20%20%20%20%20%20%20'%23f0daa4'%2C%0A%20%20%20%20%20%20%20%20'%23eaac9d'%2C%0A%20%20%20%20%20%20%20%20'%23a2553a'%2C%0A%20%20%20%20%20%20%20%20'%2372617d'%2C%0A%20%20%20%20%20%20%20%20'%23b49c73'%2C%0A%20%20%20%20%20%20%20%20'%233b3d4b'%2C%0A%20%20%20%20%20%20%20%20'%23eff0f1'%2C%0A%20%20%20%20%20%20%20%20'%23a09d9c'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(colorArray)%3B%0A%7D%0Afunction%20randomFontCapitalizationGen()%20%7B%0A%20%20%20%20return%20Math.round(Math.random())%20%3D%3D%3D%201%20%3F%20'uppercase'%20%3A%20'lowercase'%3B%0A%7D%0Afunction%20randomFontGen()%20%7B%0A%20%20%20%20const%20fonts%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'Agency%20FB'%2C%0A%20%20%20%20%20%20%20%20'Albertina'%2C%0A%20%20%20%20%20%20%20%20'Antiqua'%2C%0A%20%20%20%20%20%20%20%20'Architect'%2C%0A%20%20%20%20%20%20%20%20'Arial'%2C%0A%20%20%20%20%20%20%20%20'BankFuturistic'%2C%0A%20%20%20%20%20%20%20%20'BankGothic'%2C%0A%20%20%20%20%20%20%20%20'Blackletter'%2C%0A%20%20%20%20%20%20%20%20'Blagovest'%2C%0A%20%20%20%20%20%20%20%20'Calibri'%2C%0A%20%20%20%20%20%20%20%20'Comic%20Sans%20MS'%2C%0A%20%20%20%20%20%20%20%20'Consolas'%2C%0A%20%20%20%20%20%20%20%20'Courier'%2C%0A%20%20%20%20%20%20%20%20'Cursive'%2C%0A%20%20%20%20%20%20%20%20'Decorative'%2C%0A%20%20%20%20%20%20%20%20'Fantasy'%2C%0A%20%20%20%20%20%20%20%20'Fraktur'%2C%0A%20%20%20%20%20%20%20%20'Frosty'%2C%0A%20%20%20%20%20%20%20%20'Garamond'%2C%0A%20%20%20%20%20%20%20%20'Georgia'%2C%0A%20%20%20%20%20%20%20%20'Helvetica'%2C%0A%20%20%20%20%20%20%20%20'Impact'%2C%0A%20%20%20%20%20%20%20%20'Minion'%2C%0A%20%20%20%20%20%20%20%20'Modern'%2C%0A%20%20%20%20%20%20%20%20'Monospace'%2C%0A%20%20%20%20%20%20%20%20'Open%20Sans'%2C%0A%20%20%20%20%20%20%20%20'Palatino'%2C%0A%20%20%20%20%20%20%20%20'Perpetua'%2C%0A%20%20%20%20%20%20%20%20'Roman'%2C%0A%20%20%20%20%20%20%20%20'Sans-serif'%2C%0A%20%20%20%20%20%20%20%20'Serif'%2C%0A%20%20%20%20%20%20%20%20'Script'%2C%0A%20%20%20%20%20%20%20%20'Swiss'%2C%0A%20%20%20%20%20%20%20%20'Tahoma'%2C%0A%20%20%20%20%20%20%20%20'Times'%2C%0A%20%20%20%20%20%20%20%20'Times%20New%20Roman'%2C%0A%20%20%20%20%20%20%20%20'Tw%20Cen%20MT'%2C%0A%20%20%20%20%20%20%20%20'Verdana'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(fonts)%3B%0A%7D%0Afunction%20randomRotationGen()%20%7B%0A%20%20%20%20return%20%60rotate(%24%7BMath.random()%20*%204%20-%20Math.random()%20*%204%7Ddeg)%60%3B%0A%7D%0Afunction%20ransomify(spanEl)%20%7B%0A%20%20%20%20setFontColors(spanEl)%3B%0A%20%20%20%20spanEl.style.setProperty('font-family'%2C%20randomFontGen())%3B%0A%20%20%20%20spanEl.style.setProperty('text-transform'%2C%20randomFontCapitalizationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('right'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('bottom'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('font-size'%2C%20randomPixelSizeGen(20%2C%2015))%3B%0A%20%20%20%20spanEl.style.setProperty('transform'%2C%20randomRotationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('display'%2C%20'inline-block')%3B%0A%20%20%20%20spanEl.style.setProperty('padding'%2C%20'0%201px%3B')%3B%0A%20%20%20%20spanEl.style.setProperty('box-shadow'%2C%20'0px%201px%200px%200px%20%230000003')%3B%0A%7D%0Aasync%20function%20ransomifyAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20SLOWLY%20LOSE%20IT%0Afunction%20getRandomDistance()%20%7B%0A%20%20%20%20const%20factor%20%3D%204%3B%0A%20%20%20%20let%20num%20%3D%20Math.random()%20*%20factor%3B%0A%20%20%20%20num%20*%3D%20Math.floor(Math.random()%20*%202)%20%3D%3D%3D%201%20%3F%201%20%3A%20-1%3B%0A%20%20%20%20return%20num%3B%0A%7D%0Afunction%20moveRandomly(el)%20%7B%0A%20%20%20%20const%20directions%20%3D%20%5B'top'%2C%20'left'%5D%3B%0A%20%20%20%20for%20(const%20prop%20of%20directions)%20%7B%0A%20%20%20%20%20%20%20%20const%20pos%20%3D%20el.style%5Bprop%5D%3B%0A%20%20%20%20%20%20%20%20const%20pos_%20%3D%20parseInt(pos.substr(0%2C%20pos.length%20-%202))%20%2B%20getRandomDistance()%3B%0A%20%20%20%20%20%20%20%20el.style.setProperty(prop%2C%20%60%24%7Bpos_%7Dpx%60)%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20genRandomMoves(className)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20window.setInterval(function%20()%20%7B%0A%20%20%20%20%20%20%20%20const%20el%20%3D%20elems%5BMath.floor(Math.random()%20*%20elems.length)%5D%3B%0A%20%20%20%20%20%20%20%20moveRandomly(el)%3B%0A%20%20%20%20%20%20%20%20console.log('Moved%20element')%3B%0A%20%20%20%20%20%20%20%20console.log(el.style.getPropertyValue('top')%20%3D%3D%3D%20'')%3B%0A%20%20%20%20%7D%2C%205)%3B%0A%7D%0Afunction%20slowlyLoseIt(spanEl)%20%7B%0A%20%20%20%20spanEl.style.setProperty('position'%2C%20'relative')%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20'0px')%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20'0px')%3B%0A%7D%0Aasync%20function%20slowlyLoseItAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%7D%0AslowlyLoseItAll('all-chars')%3B%7D)()%3B">
-                    <span style="position: relative; top: -1px; left: 0px">m</span><span
-                        style="position: relative; top: 0px; left: 0px">o</span><span style="
-                                position: relative;
-                                top: 0.77469px;
-                                left: 0.7523012px;
-                            ">v</span><span style="position: relative; top: 0px; left: 0px">e</span><span
-                        style="position: relative; top: 0px; left: 0px">-</span><span
-                        style="position: relative; top: 0px; left: 0px">a</span><span
-                        style="position: relative; top: 0px; left: 0px">-</span><span
-                        style="position: relative; top: 0px; left: 0px">l</span><span style="
-                                position: relative;
-                                top: -1.77469px;
-                                left: 0.75012px;
-                            ">i</span><span style="position: relative; top: 0px; left: 0px">t</span><span style="
-                                position: relative;
-                                top: -1.29772px;
-                                left: 0.37781px;
-                            ">t</span><span style="position: relative; top: 0px; left: 0px">l</span><span
-                        style="position: relative; top: 0px; left: 0px">e</span><span> </span>
-                </a>
-            </li>
-            <li><a
-                    href="javascript:(function()%7B%22use%20strict%22%3B%0A%2F%2F%20WRAPPER%0Afunction%20textFilter(node)%20%7B%0A%20%20%20%20if%20(%5B%0A%20%20%20%20%20%20%20%20'p'%2C%0A%20%20%20%20%20%20%20%20'span'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'a'%2C%0A%20%20%20%20%20%20%20%20'h1'%2C%0A%20%20%20%20%20%20%20%20'h2'%2C%0A%20%20%20%20%20%20%20%20'h3'%2C%0A%20%20%20%20%20%20%20%20'h4'%2C%0A%20%20%20%20%20%20%20%20'h5'%2C%0A%20%20%20%20%20%20%20%20'h6'%2C%0A%20%20%20%20%20%20%20%20'td'%2C%0A%20%20%20%20%20%20%20%20'li'%2C%0A%20%20%20%20%20%20%20%20'section'%2C%0A%20%20%20%20%20%20%20%20'div'%2C%0A%20%20%20%20%20%20%20%20'input'%2C%0A%20%20%20%20%20%20%20%20'button'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'b'%2C%0A%20%20%20%20%20%20%20%20'strong'%2C%0A%20%20%20%20%20%20%20%20'em'%2C%0A%20%20%20%20%20%20%20%20'pre'%2C%0A%20%20%20%20%20%20%20%20'footer'%2C%0A%20%20%20%20%20%20%20%20'cite'%2C%0A%20%20%20%20%20%20%20%20'time'%2C%0A%20%20%20%20%20%20%20%20'abbr'%2C%0A%20%20%20%20%20%20%20%20'del'%2C%0A%20%20%20%20%20%20%20%20'sub'%2C%0A%20%20%20%20%20%20%20%20'dd'%2C%0A%20%20%20%20%20%20%20%20'dt'%2C%0A%20%20%20%20%20%20%20%20'legend'%2C%0A%20%20%20%20%20%20%20%20'q'%2C%0A%20%20%20%20%20%20%20%20'mark'%2C%0A%20%20%20%20%20%20%20%20'samp'%2C%0A%20%20%20%20%20%20%20%20'ins'%2C%0A%20%20%20%20%20%20%20%20'var'%2C%0A%20%20%20%20%20%20%20%20'i'%2C%0A%20%20%20%20%20%20%20%20'dfn'%2C%0A%20%20%20%20%20%20%20%20'code'%0A%20%20%20%20%5D.includes(node.parentElement.localName))%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_ACCEPT%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_SKIP%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20getTextNodes()%20%7B%0A%20%20%20%20var%20walk%20%3D%20document.createTreeWalker(document.body%2C%20NodeFilter.SHOW_TEXT%2C%20%7B%20acceptNode%3A%20textFilter%20%7D%2C%20true)%3B%0A%20%20%20%20var%20n%2C%20a%20%3D%20%5B%5D%3B%0A%20%20%20%20while%20((n%20%3D%20walk.nextNode()))%0A%20%20%20%20%20%20%20%20a.push(n)%3B%0A%20%20%20%20return%20a%3B%0A%7D%0Afunction%20shouldWrap(className)%20%7B%0A%20%20%20%20return%20document.getElementsByClassName(className).length%20%3D%3D%3D%200%3B%0A%7D%0Afunction%20wrapCharacters(className)%20%7B%0A%20%20%20%20return%20new%20Promise((resolve%2C%20reject)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20Get%20all%20text%20nodes%20in%20DOM%0A%20%20%20%20%20%20%20%20let%20textNodes%20%3D%20getTextNodes()%3B%0A%20%20%20%20%20%20%20%20for%20(let%20textNode%20of%20textNodes)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Split%20node%20up%20into%20individual%20letters%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20text%20%3D%20textNode.textContent%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20textArray%20%3D%20text%3F.split('')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Generate%20the%20new%20element%20for%20each%20letter.%0A%20%20%20%20%20%20%20%20%20%20%20%20textArray%3F.map((char)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20elemChar%20%3D%20document.createElement('span')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20isEmptySpace%20%3D%20char%20%3D%3D%3D%20'%20'%20%7C%7C%20char%20%3D%3D%3D%20'%5Cn'%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.textContent%20%3D%20char%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20if%20(!isEmptySpace)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.setAttribute('class'%2C%20className)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.insertBefore(elemChar%2C%20textNode)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20return%20elemChar%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.removeChild(textNode)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20resolve(className)%3B%0A%20%20%20%20%7D)%3B%0A%7D%0Afunction%20deployWrapperFunction(className%2C%20wrapperFunc)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20for%20(let%20index%20%3D%200%3B%20index%20%3C%20elems.length%3B%20index%2B%2B)%20%7B%0A%20%20%20%20%20%20%20%20const%20element%20%3D%20elems%5Bindex%5D%3B%0A%20%20%20%20%20%20%20%20wrapperFunc(element)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20RANSOMIFY%0Aconst%20hex2Rgb%20%3D%20function%20(hex)%20%7B%0A%20%20%20%20const%20result%20%3D%20%2F%5E%23%3F(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)%24%2Fi.exec(hex)%3B%0A%20%20%20%20return%20result%0A%20%20%20%20%20%20%20%20%3F%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20r%3A%20parseInt(result%5B1%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20g%3A%20parseInt(result%5B2%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20b%3A%20parseInt(result%5B3%5D%2C%2016)%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%3A%20%7B%20r%3A%200%2C%20g%3A%200%2C%20b%3A%200%20%7D%3B%0A%7D%3B%0Afunction%20luminance(r%2C%20g%2C%20b)%20%7B%0A%20%20%20%20const%20a%20%3D%20%5Br%2C%20g%2C%20b%5D.map(function%20(v)%20%7B%0A%20%20%20%20%20%20%20%20v%20%2F%3D%20255%3B%0A%20%20%20%20%20%20%20%20return%20v%20%3C%3D%200.03928%20%3F%20v%20%2F%2012.92%20%3A%20Math.pow((v%20%2B%200.055)%20%2F%201.055%2C%202.4)%3B%0A%20%20%20%20%7D)%3B%0A%20%20%20%20return%20a%5B0%5D%20*%200.2126%20%2B%20a%5B1%5D%20*%200.7152%20%2B%20a%5B2%5D%20*%200.0722%3B%0A%7D%0Afunction%20contrast(rgb1%2C%20rgb2)%20%7B%0A%20%20%20%20const%20lum1%20%3D%20luminance(rgb1.r%2C%20rgb1.g%2C%20rgb1.b)%3B%0A%20%20%20%20const%20lum2%20%3D%20luminance(rgb2.r%2C%20rgb2.g%2C%20rgb2.b)%3B%0A%20%20%20%20const%20brightest%20%3D%20Math.max(lum1%2C%20lum2)%3B%0A%20%20%20%20const%20darkest%20%3D%20Math.min(lum1%2C%20lum2)%3B%0A%20%20%20%20return%20(brightest%20%2B%200.05)%20%2F%20(darkest%20%2B%200.05)%3B%0A%7D%0Afunction%20setFontColors(elemChar)%20%7B%0A%20%20%20%20let%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20let%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20while%20(contrast(hex2Rgb(fontColor)%2C%20hex2Rgb(fontBackgroundColor))%20%3C%206)%20%7B%0A%20%20%20%20%20%20%20%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%20%20%20%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%7D%0A%20%20%20%20elemChar.style.setProperty('color'%2C%20fontColor)%3B%0A%20%20%20%20elemChar.style.setProperty('background-color'%2C%20fontBackgroundColor)%3B%0A%7D%0Afunction%20getRandomFromArray(array)%20%7B%0A%20%20%20%20return%20array%5BMath.floor(Math.random()%20*%20array.length)%5D%3B%0A%7D%0Afunction%20randomPixelSizeGen(multiplier%2C%20sizeFloor)%20%7B%0A%20%20%20%20const%20randomNum%20%3D%20Math.floor(Math.random()%20*%20multiplier)%3B%0A%20%20%20%20return%20randomNum%20%3E%20sizeFloor%0A%20%20%20%20%20%20%20%20%3F%20randomNum.toString()%20%2B%20'px'%0A%20%20%20%20%20%20%20%20%3A%20sizeFloor.toString()%20%2B%20'px'%3B%0A%7D%0Afunction%20randomColorGen()%20%7B%0A%20%20%20%20const%20colorArray%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'%23ffaf12'%2C%0A%20%20%20%20%20%20%20%20'%2334558b'%2C%0A%20%20%20%20%20%20%20%20'%234ec5a5'%2C%0A%20%20%20%20%20%20%20%20'%23565d47'%2C%0A%20%20%20%20%20%20%20%20'%23798fa8'%2C%0A%20%20%20%20%20%20%20%20'%23fd823e'%2C%0A%20%20%20%20%20%20%20%20'%23117893'%2C%0A%20%20%20%20%20%20%20%20'%23f0daa4'%2C%0A%20%20%20%20%20%20%20%20'%23eaac9d'%2C%0A%20%20%20%20%20%20%20%20'%23a2553a'%2C%0A%20%20%20%20%20%20%20%20'%2372617d'%2C%0A%20%20%20%20%20%20%20%20'%23b49c73'%2C%0A%20%20%20%20%20%20%20%20'%233b3d4b'%2C%0A%20%20%20%20%20%20%20%20'%23eff0f1'%2C%0A%20%20%20%20%20%20%20%20'%23a09d9c'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(colorArray)%3B%0A%7D%0Afunction%20randomFontCapitalizationGen()%20%7B%0A%20%20%20%20return%20Math.round(Math.random())%20%3D%3D%3D%201%20%3F%20'uppercase'%20%3A%20'lowercase'%3B%0A%7D%0Afunction%20randomFontGen()%20%7B%0A%20%20%20%20const%20fonts%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'Agency%20FB'%2C%0A%20%20%20%20%20%20%20%20'Albertina'%2C%0A%20%20%20%20%20%20%20%20'Antiqua'%2C%0A%20%20%20%20%20%20%20%20'Architect'%2C%0A%20%20%20%20%20%20%20%20'Arial'%2C%0A%20%20%20%20%20%20%20%20'BankFuturistic'%2C%0A%20%20%20%20%20%20%20%20'BankGothic'%2C%0A%20%20%20%20%20%20%20%20'Blackletter'%2C%0A%20%20%20%20%20%20%20%20'Blagovest'%2C%0A%20%20%20%20%20%20%20%20'Calibri'%2C%0A%20%20%20%20%20%20%20%20'Comic%20Sans%20MS'%2C%0A%20%20%20%20%20%20%20%20'Consolas'%2C%0A%20%20%20%20%20%20%20%20'Courier'%2C%0A%20%20%20%20%20%20%20%20'Cursive'%2C%0A%20%20%20%20%20%20%20%20'Decorative'%2C%0A%20%20%20%20%20%20%20%20'Fantasy'%2C%0A%20%20%20%20%20%20%20%20'Fraktur'%2C%0A%20%20%20%20%20%20%20%20'Frosty'%2C%0A%20%20%20%20%20%20%20%20'Garamond'%2C%0A%20%20%20%20%20%20%20%20'Georgia'%2C%0A%20%20%20%20%20%20%20%20'Helvetica'%2C%0A%20%20%20%20%20%20%20%20'Impact'%2C%0A%20%20%20%20%20%20%20%20'Minion'%2C%0A%20%20%20%20%20%20%20%20'Modern'%2C%0A%20%20%20%20%20%20%20%20'Monospace'%2C%0A%20%20%20%20%20%20%20%20'Open%20Sans'%2C%0A%20%20%20%20%20%20%20%20'Palatino'%2C%0A%20%20%20%20%20%20%20%20'Perpetua'%2C%0A%20%20%20%20%20%20%20%20'Roman'%2C%0A%20%20%20%20%20%20%20%20'Sans-serif'%2C%0A%20%20%20%20%20%20%20%20'Serif'%2C%0A%20%20%20%20%20%20%20%20'Script'%2C%0A%20%20%20%20%20%20%20%20'Swiss'%2C%0A%20%20%20%20%20%20%20%20'Tahoma'%2C%0A%20%20%20%20%20%20%20%20'Times'%2C%0A%20%20%20%20%20%20%20%20'Times%20New%20Roman'%2C%0A%20%20%20%20%20%20%20%20'Tw%20Cen%20MT'%2C%0A%20%20%20%20%20%20%20%20'Verdana'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(fonts)%3B%0A%7D%0Afunction%20randomRotationGen()%20%7B%0A%20%20%20%20return%20%60rotate(%24%7BMath.random()%20*%204%20-%20Math.random()%20*%204%7Ddeg)%60%3B%0A%7D%0Afunction%20ransomify(spanEl)%20%7B%0A%20%20%20%20setFontColors(spanEl)%3B%0A%20%20%20%20spanEl.style.setProperty('font-family'%2C%20randomFontGen())%3B%0A%20%20%20%20spanEl.style.setProperty('text-transform'%2C%20randomFontCapitalizationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('right'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('bottom'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('font-size'%2C%20randomPixelSizeGen(20%2C%2015))%3B%0A%20%20%20%20spanEl.style.setProperty('transform'%2C%20randomRotationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('display'%2C%20'inline-block')%3B%0A%20%20%20%20spanEl.style.setProperty('padding'%2C%20'0%201px%3B')%3B%0A%20%20%20%20spanEl.style.setProperty('box-shadow'%2C%20'0px%201px%200px%200px%20%230000003')%3B%0A%7D%0Aasync%20function%20ransomifyAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20SLOWLY%20LOSE%20IT%0Afunction%20getRandomDistance()%20%7B%0A%20%20%20%20const%20factor%20%3D%204%3B%0A%20%20%20%20let%20num%20%3D%20Math.random()%20*%20factor%3B%0A%20%20%20%20num%20*%3D%20Math.floor(Math.random()%20*%202)%20%3D%3D%3D%201%20%3F%201%20%3A%20-1%3B%0A%20%20%20%20return%20num%3B%0A%7D%0Afunction%20moveRandomly(el)%20%7B%0A%20%20%20%20const%20directions%20%3D%20%5B'top'%2C%20'left'%5D%3B%0A%20%20%20%20for%20(const%20prop%20of%20directions)%20%7B%0A%20%20%20%20%20%20%20%20const%20pos%20%3D%20el.style%5Bprop%5D%3B%0A%20%20%20%20%20%20%20%20const%20pos_%20%3D%20parseInt(pos.substr(0%2C%20pos.length%20-%202))%20%2B%20getRandomDistance()%3B%0A%20%20%20%20%20%20%20%20el.style.setProperty(prop%2C%20%60%24%7Bpos_%7Dpx%60)%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20genRandomMoves(className)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20window.setInterval(function%20()%20%7B%0A%20%20%20%20%20%20%20%20const%20el%20%3D%20elems%5BMath.floor(Math.random()%20*%20elems.length)%5D%3B%0A%20%20%20%20%20%20%20%20moveRandomly(el)%3B%0A%20%20%20%20%20%20%20%20console.log('Moved%20element')%3B%0A%20%20%20%20%20%20%20%20console.log(el.style.getPropertyValue('top')%20%3D%3D%3D%20'')%3B%0A%20%20%20%20%7D%2C%205)%3B%0A%7D%0Afunction%20slowlyLoseIt(spanEl)%20%7B%0A%20%20%20%20spanEl.style.setProperty('position'%2C%20'relative')%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20'0px')%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20'0px')%3B%0A%7D%0Aasync%20function%20slowlyLoseItAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20SOLAR%20FLARES%0Afunction%20selectForFlare(className)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20window.setInterval(function%20()%20%7B%0A%20%20%20%20%20%20%20%20const%20el%20%3D%20elems%5BMath.floor(Math.random()%20*%20elems.length)%5D%3B%0A%20%20%20%20%20%20%20%20solarFlare(el)%3B%0A%20%20%20%20%7D%2C%201000)%3B%0A%7D%0Afunction%20solarFlare(spanEl)%20%7B%0A%20%20%20%20spanEl.style.setProperty('transition'%2C%20'box-shadow%201s')%3B%0A%20%20%20%20spanEl.style.setProperty('box-shadow'%2C%20'0%200%201000px%20500px%20yellow')%3B%0A%20%20%20%20window.setTimeout(function%20()%20%7B%0A%20%20%20%20%20%20%20%20spanEl.style.setProperty('box-shadow'%2C%20'none')%3B%0A%20%20%20%20%7D%2C%201000)%3B%0A%7D%0Aasync%20function%20solarFlareAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20selectForFlare(className)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20selectForFlare(className)%3B%0A%20%20%20%20%7D%0A%7D%0AsolarFlareAll('all-chars')%3B%7D)()%3B">Sola<span
-                        style="box-shadow: 0 0 4px 4px yellow">r</span> Flare</a></li>
-        </ul>
-    </div>
-    <h4>A bunch of HTML to mess with:</h4>
-    <div class="example">
-        <h1>Living weather 3434 Gollum speech niece.</h1>
+    <main>
+        <h2>
+            Examples
+        </h2>
         <p>
-            Echoes tries Bombur's wheeled 12 seeks? Between strategic cured
-            Éomund sit brooded paws. I gave you the chance of aiding me
-            willingly, but you have elected the way of pain!
+            Save these links to your bookmarks, navigate to any webpage, then click the saved link:
         </p>
-        <h2>Idiot 12 mighty Dory consistency 400.</h2>
+        <div class="bookmarklets">
+            <ul>
+                <li>
+                    <a
+                        href="javascript:(function()%7B%22use%20strict%22%3B%0A%2F%2F%20WRAPPER%0Afunction%20textFilter(node)%20%7B%0A%20%20%20%20if%20(%5B%0A%20%20%20%20%20%20%20%20'p'%2C%0A%20%20%20%20%20%20%20%20'span'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'a'%2C%0A%20%20%20%20%20%20%20%20'h1'%2C%0A%20%20%20%20%20%20%20%20'h2'%2C%0A%20%20%20%20%20%20%20%20'h3'%2C%0A%20%20%20%20%20%20%20%20'h4'%2C%0A%20%20%20%20%20%20%20%20'h5'%2C%0A%20%20%20%20%20%20%20%20'h6'%2C%0A%20%20%20%20%20%20%20%20'td'%2C%0A%20%20%20%20%20%20%20%20'li'%2C%0A%20%20%20%20%20%20%20%20'section'%2C%0A%20%20%20%20%20%20%20%20'div'%2C%0A%20%20%20%20%20%20%20%20'input'%2C%0A%20%20%20%20%20%20%20%20'button'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'b'%2C%0A%20%20%20%20%20%20%20%20'strong'%2C%0A%20%20%20%20%20%20%20%20'em'%2C%0A%20%20%20%20%20%20%20%20'pre'%2C%0A%20%20%20%20%20%20%20%20'footer'%2C%0A%20%20%20%20%20%20%20%20'cite'%2C%0A%20%20%20%20%20%20%20%20'time'%2C%0A%20%20%20%20%20%20%20%20'abbr'%2C%0A%20%20%20%20%20%20%20%20'del'%2C%0A%20%20%20%20%20%20%20%20'sub'%2C%0A%20%20%20%20%20%20%20%20'dd'%2C%0A%20%20%20%20%20%20%20%20'dt'%2C%0A%20%20%20%20%20%20%20%20'legend'%2C%0A%20%20%20%20%20%20%20%20'q'%2C%0A%20%20%20%20%20%20%20%20'mark'%2C%0A%20%20%20%20%20%20%20%20'samp'%2C%0A%20%20%20%20%20%20%20%20'ins'%2C%0A%20%20%20%20%20%20%20%20'var'%2C%0A%20%20%20%20%20%20%20%20'i'%2C%0A%20%20%20%20%20%20%20%20'dfn'%2C%0A%20%20%20%20%20%20%20%20'code'%0A%20%20%20%20%5D.includes(node.parentElement.localName))%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_ACCEPT%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_SKIP%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20getTextNodes()%20%7B%0A%20%20%20%20var%20walk%20%3D%20document.createTreeWalker(document.body%2C%20NodeFilter.SHOW_TEXT%2C%20%7B%20acceptNode%3A%20textFilter%20%7D%2C%20true)%3B%0A%20%20%20%20var%20n%2C%20a%20%3D%20%5B%5D%3B%0A%20%20%20%20while%20((n%20%3D%20walk.nextNode()))%0A%20%20%20%20%20%20%20%20a.push(n)%3B%0A%20%20%20%20return%20a%3B%0A%7D%0Afunction%20shouldWrap(className)%20%7B%0A%20%20%20%20return%20document.getElementsByClassName(className).length%20%3D%3D%3D%200%3B%0A%7D%0Afunction%20wrapCharacters(className)%20%7B%0A%20%20%20%20return%20new%20Promise((resolve%2C%20reject)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20Get%20all%20text%20nodes%20in%20DOM%0A%20%20%20%20%20%20%20%20let%20textNodes%20%3D%20getTextNodes()%3B%0A%20%20%20%20%20%20%20%20for%20(let%20textNode%20of%20textNodes)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Split%20node%20up%20into%20individual%20letters%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20text%20%3D%20textNode.textContent%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20textArray%20%3D%20text%3F.split('')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Generate%20the%20new%20element%20for%20each%20letter.%0A%20%20%20%20%20%20%20%20%20%20%20%20textArray%3F.map((char)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20elemChar%20%3D%20document.createElement('span')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20isEmptySpace%20%3D%20char%20%3D%3D%3D%20'%20'%20%7C%7C%20char%20%3D%3D%3D%20'%5Cn'%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.textContent%20%3D%20char%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20if%20(!isEmptySpace)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.setAttribute('class'%2C%20className)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.insertBefore(elemChar%2C%20textNode)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20return%20elemChar%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.removeChild(textNode)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20resolve(className)%3B%0A%20%20%20%20%7D)%3B%0A%7D%0Afunction%20deployWrapperFunction(className%2C%20wrapperFunc)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20for%20(let%20index%20%3D%200%3B%20index%20%3C%20elems.length%3B%20index%2B%2B)%20%7B%0A%20%20%20%20%20%20%20%20const%20element%20%3D%20elems%5Bindex%5D%3B%0A%20%20%20%20%20%20%20%20wrapperFunc(element)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20RANSOMIFY%0Aconst%20hex2Rgb%20%3D%20function%20(hex)%20%7B%0A%20%20%20%20const%20result%20%3D%20%2F%5E%23%3F(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)%24%2Fi.exec(hex)%3B%0A%20%20%20%20return%20result%0A%20%20%20%20%20%20%20%20%3F%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20r%3A%20parseInt(result%5B1%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20g%3A%20parseInt(result%5B2%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20b%3A%20parseInt(result%5B3%5D%2C%2016)%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%3A%20%7B%20r%3A%200%2C%20g%3A%200%2C%20b%3A%200%20%7D%3B%0A%7D%3B%0Afunction%20luminance(r%2C%20g%2C%20b)%20%7B%0A%20%20%20%20const%20a%20%3D%20%5Br%2C%20g%2C%20b%5D.map(function%20(v)%20%7B%0A%20%20%20%20%20%20%20%20v%20%2F%3D%20255%3B%0A%20%20%20%20%20%20%20%20return%20v%20%3C%3D%200.03928%20%3F%20v%20%2F%2012.92%20%3A%20Math.pow((v%20%2B%200.055)%20%2F%201.055%2C%202.4)%3B%0A%20%20%20%20%7D)%3B%0A%20%20%20%20return%20a%5B0%5D%20*%200.2126%20%2B%20a%5B1%5D%20*%200.7152%20%2B%20a%5B2%5D%20*%200.0722%3B%0A%7D%0Afunction%20contrast(rgb1%2C%20rgb2)%20%7B%0A%20%20%20%20const%20lum1%20%3D%20luminance(rgb1.r%2C%20rgb1.g%2C%20rgb1.b)%3B%0A%20%20%20%20const%20lum2%20%3D%20luminance(rgb2.r%2C%20rgb2.g%2C%20rgb2.b)%3B%0A%20%20%20%20const%20brightest%20%3D%20Math.max(lum1%2C%20lum2)%3B%0A%20%20%20%20const%20darkest%20%3D%20Math.min(lum1%2C%20lum2)%3B%0A%20%20%20%20return%20(brightest%20%2B%200.05)%20%2F%20(darkest%20%2B%200.05)%3B%0A%7D%0Afunction%20setFontColors(elemChar)%20%7B%0A%20%20%20%20let%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20let%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20while%20(contrast(hex2Rgb(fontColor)%2C%20hex2Rgb(fontBackgroundColor))%20%3C%206)%20%7B%0A%20%20%20%20%20%20%20%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%20%20%20%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%7D%0A%20%20%20%20elemChar.style.setProperty('color'%2C%20fontColor)%3B%0A%20%20%20%20elemChar.style.setProperty('background-color'%2C%20fontBackgroundColor)%3B%0A%7D%0Afunction%20getRandomFromArray(array)%20%7B%0A%20%20%20%20return%20array%5BMath.floor(Math.random()%20*%20array.length)%5D%3B%0A%7D%0Afunction%20randomPixelSizeGen(multiplier%2C%20sizeFloor)%20%7B%0A%20%20%20%20const%20randomNum%20%3D%20Math.floor(Math.random()%20*%20multiplier)%3B%0A%20%20%20%20return%20randomNum%20%3E%20sizeFloor%0A%20%20%20%20%20%20%20%20%3F%20randomNum.toString()%20%2B%20'px'%0A%20%20%20%20%20%20%20%20%3A%20sizeFloor.toString()%20%2B%20'px'%3B%0A%7D%0Afunction%20randomColorGen()%20%7B%0A%20%20%20%20const%20colorArray%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'%23ffaf12'%2C%0A%20%20%20%20%20%20%20%20'%2334558b'%2C%0A%20%20%20%20%20%20%20%20'%234ec5a5'%2C%0A%20%20%20%20%20%20%20%20'%23565d47'%2C%0A%20%20%20%20%20%20%20%20'%23798fa8'%2C%0A%20%20%20%20%20%20%20%20'%23fd823e'%2C%0A%20%20%20%20%20%20%20%20'%23117893'%2C%0A%20%20%20%20%20%20%20%20'%23f0daa4'%2C%0A%20%20%20%20%20%20%20%20'%23eaac9d'%2C%0A%20%20%20%20%20%20%20%20'%23a2553a'%2C%0A%20%20%20%20%20%20%20%20'%2372617d'%2C%0A%20%20%20%20%20%20%20%20'%23b49c73'%2C%0A%20%20%20%20%20%20%20%20'%233b3d4b'%2C%0A%20%20%20%20%20%20%20%20'%23eff0f1'%2C%0A%20%20%20%20%20%20%20%20'%23a09d9c'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(colorArray)%3B%0A%7D%0Afunction%20randomFontCapitalizationGen()%20%7B%0A%20%20%20%20return%20Math.round(Math.random())%20%3D%3D%3D%201%20%3F%20'uppercase'%20%3A%20'lowercase'%3B%0A%7D%0Afunction%20randomFontGen()%20%7B%0A%20%20%20%20const%20fonts%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'Agency%20FB'%2C%0A%20%20%20%20%20%20%20%20'Albertina'%2C%0A%20%20%20%20%20%20%20%20'Antiqua'%2C%0A%20%20%20%20%20%20%20%20'Architect'%2C%0A%20%20%20%20%20%20%20%20'Arial'%2C%0A%20%20%20%20%20%20%20%20'BankFuturistic'%2C%0A%20%20%20%20%20%20%20%20'BankGothic'%2C%0A%20%20%20%20%20%20%20%20'Blackletter'%2C%0A%20%20%20%20%20%20%20%20'Blagovest'%2C%0A%20%20%20%20%20%20%20%20'Calibri'%2C%0A%20%20%20%20%20%20%20%20'Comic%20Sans%20MS'%2C%0A%20%20%20%20%20%20%20%20'Consolas'%2C%0A%20%20%20%20%20%20%20%20'Courier'%2C%0A%20%20%20%20%20%20%20%20'Cursive'%2C%0A%20%20%20%20%20%20%20%20'Decorative'%2C%0A%20%20%20%20%20%20%20%20'Fantasy'%2C%0A%20%20%20%20%20%20%20%20'Fraktur'%2C%0A%20%20%20%20%20%20%20%20'Frosty'%2C%0A%20%20%20%20%20%20%20%20'Garamond'%2C%0A%20%20%20%20%20%20%20%20'Georgia'%2C%0A%20%20%20%20%20%20%20%20'Helvetica'%2C%0A%20%20%20%20%20%20%20%20'Impact'%2C%0A%20%20%20%20%20%20%20%20'Minion'%2C%0A%20%20%20%20%20%20%20%20'Modern'%2C%0A%20%20%20%20%20%20%20%20'Monospace'%2C%0A%20%20%20%20%20%20%20%20'Open%20Sans'%2C%0A%20%20%20%20%20%20%20%20'Palatino'%2C%0A%20%20%20%20%20%20%20%20'Perpetua'%2C%0A%20%20%20%20%20%20%20%20'Roman'%2C%0A%20%20%20%20%20%20%20%20'Sans-serif'%2C%0A%20%20%20%20%20%20%20%20'Serif'%2C%0A%20%20%20%20%20%20%20%20'Script'%2C%0A%20%20%20%20%20%20%20%20'Swiss'%2C%0A%20%20%20%20%20%20%20%20'Tahoma'%2C%0A%20%20%20%20%20%20%20%20'Times'%2C%0A%20%20%20%20%20%20%20%20'Times%20New%20Roman'%2C%0A%20%20%20%20%20%20%20%20'Tw%20Cen%20MT'%2C%0A%20%20%20%20%20%20%20%20'Verdana'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(fonts)%3B%0A%7D%0Afunction%20randomRotationGen()%20%7B%0A%20%20%20%20return%20%60rotate(%24%7BMath.random()%20*%204%20-%20Math.random()%20*%204%7Ddeg)%60%3B%0A%7D%0Afunction%20ransomify(spanEl)%20%7B%0A%20%20%20%20setFontColors(spanEl)%3B%0A%20%20%20%20spanEl.style.setProperty('font-family'%2C%20randomFontGen())%3B%0A%20%20%20%20spanEl.style.setProperty('text-transform'%2C%20randomFontCapitalizationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('right'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('bottom'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('font-size'%2C%20randomPixelSizeGen(20%2C%2015))%3B%0A%20%20%20%20spanEl.style.setProperty('transform'%2C%20randomRotationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('display'%2C%20'inline-block')%3B%0A%20%20%20%20spanEl.style.setProperty('padding'%2C%20'0%201px%3B')%3B%0A%20%20%20%20spanEl.style.setProperty('box-shadow'%2C%20'0px%201px%200px%200px%20%230000003')%3B%0A%7D%0Aasync%20function%20ransomifyAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20SLOWLY%20LOSE%20IT%0Afunction%20getRandomDistance()%20%7B%0A%20%20%20%20const%20factor%20%3D%204%3B%0A%20%20%20%20let%20num%20%3D%20Math.random()%20*%20factor%3B%0A%20%20%20%20num%20*%3D%20Math.floor(Math.random()%20*%202)%20%3D%3D%3D%201%20%3F%201%20%3A%20-1%3B%0A%20%20%20%20return%20num%3B%0A%7D%0Afunction%20moveRandomly(el)%20%7B%0A%20%20%20%20const%20directions%20%3D%20%5B'top'%2C%20'left'%5D%3B%0A%20%20%20%20for%20(const%20prop%20of%20directions)%20%7B%0A%20%20%20%20%20%20%20%20const%20pos%20%3D%20el.style%5Bprop%5D%3B%0A%20%20%20%20%20%20%20%20const%20pos_%20%3D%20parseInt(pos.substr(0%2C%20pos.length%20-%202))%20%2B%20getRandomDistance()%3B%0A%20%20%20%20%20%20%20%20el.style.setProperty(prop%2C%20%60%24%7Bpos_%7Dpx%60)%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20genRandomMoves(className)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20window.setInterval(function%20()%20%7B%0A%20%20%20%20%20%20%20%20const%20el%20%3D%20elems%5BMath.floor(Math.random()%20*%20elems.length)%5D%3B%0A%20%20%20%20%20%20%20%20moveRandomly(el)%3B%0A%20%20%20%20%20%20%20%20console.log('Moved%20element')%3B%0A%20%20%20%20%20%20%20%20console.log(el.style.getPropertyValue('top')%20%3D%3D%3D%20'')%3B%0A%20%20%20%20%7D%2C%205)%3B%0A%7D%0Afunction%20slowlyLoseIt(spanEl)%20%7B%0A%20%20%20%20spanEl.style.setProperty('position'%2C%20'relative')%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20'0px')%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20'0px')%3B%0A%7D%0Aasync%20function%20slowlyLoseItAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%7D%0AransomifyAll('all-chars')%3B%7D)()%3B">
+                        <span style="
+                                    color: rgb(59, 61, 75);
+                                    background-color: rgb(240, 218, 164);
+                                    font-family: 'Tw Cen MT';
+                                    text-transform: lowercase;
+                                    top: 2px;
+                                    left: 2px;
+                                    right: 1px;
+                                    bottom: 1px;
+                                    font-size: 15px;
+                                    transform: rotate(-0.285048deg);
+                                    display: inline-block;
+                                ">r</span><span style="
+                                    color: rgb(86, 93, 71);
+                                    background-color: rgb(239, 240, 241);
+                                    font-family: Modern;
+                                    text-transform: uppercase;
+                                    top: 1px;
+                                    left: 1px;
+                                    right: 1px;
+                                    bottom: 1px;
+                                    font-size: 15px;
+                                    transform: rotate(2.24228deg);
+                                    display: inline-block;
+                                ">a</span><span style="
+                                    color: rgb(86, 93, 71);
+                                    background-color: rgb(239, 240, 241);
+                                    font-family: Consolas;
+                                    text-transform: uppercase;
+                                    top: 1px;
+                                    left: 1px;
+                                    right: 1px;
+                                    bottom: 1px;
+                                    font-size: 18px;
+                                    transform: rotate(1.13623deg);
+                                    display: inline-block;
+                                ">n</span><span style="
+                                    color: rgb(239, 240, 241);
+                                    background-color: rgb(52, 85, 139);
+                                    font-family: BankGothic;
+                                    text-transform: uppercase;
+                                    top: 1px;
+                                    left: 1px;
+                                    right: 1px;
+                                    bottom: 1px;
+                                    font-size: 15px;
+                                    transform: rotate(-0.0201059deg);
+                                    display: inline-block;
+                                ">s</span><span style="
+                                    color: rgb(59, 61, 75);
+                                    background-color: rgb(240, 218, 164);
+                                    font-family: Roman;
+                                    text-transform: lowercase;
+                                    top: 2px;
+                                    left: 1px;
+                                    right: 2px;
+                                    bottom: 2px;
+                                    font-size: 15px;
+                                    transform: rotate(-1.48498deg);
+                                    display: inline-block;
+                                ">o</span><span style="
+                                    color: rgb(59, 61, 75);
+                                    background-color: rgb(240, 218, 164);
+                                    font-family: Arial;
+                                    text-transform: lowercase;
+                                    top: 2px;
+                                    left: 1px;
+                                    right: 1px;
+                                    bottom: 1px;
+                                    font-size: 15px;
+                                    transform: rotate(3.64499deg);
+                                    display: inline-block;
+                                ">m</span><span style="
+                                    color: rgb(52, 85, 139);
+                                    background-color: rgb(239, 240, 241);
+                                    font-family: Decorative;
+                                    text-transform: lowercase;
+                                    top: 1px;
+                                    left: 1px;
+                                    right: 2px;
+                                    bottom: 1px;
+                                    font-size: 15px;
+                                    transform: rotate(-0.711941deg);
+                                    display: inline-block;
+                                ">i</span><span style="
+                                    color: rgb(52, 85, 139);
+                                    background-color: rgb(239, 240, 241);
+                                    font-family: Times;
+                                    text-transform: uppercase;
+                                    top: 1px;
+                                    left: 1px;
+                                    right: 1px;
+                                    bottom: 2px;
+                                    font-size: 15px;
+                                    transform: rotate(-3.33679deg);
+                                    display: inline-block;
+                                ">f</span><span style="
+                                    color: rgb(86, 93, 71);
+                                    background-color: rgb(239, 240, 241);
+                                    font-family: Albertina;
+                                    text-transform: uppercase;
+                                    top: 1px;
+                                    left: 1px;
+                                    right: 1px;
+                                    bottom: 1px;
+                                    font-size: 15px;
+                                    transform: rotate(-2.66254deg);
+                                    display: inline-block;
+                                ">y</span></a>
+                </li>
+                <li>
+                    <a
+                        href="javascript:(function()%7B%22use%20strict%22%3B%0A%2F%2F%20WRAPPER%0Afunction%20textFilter(node)%20%7B%0A%20%20%20%20if%20(%5B%0A%20%20%20%20%20%20%20%20'p'%2C%0A%20%20%20%20%20%20%20%20'span'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'a'%2C%0A%20%20%20%20%20%20%20%20'h1'%2C%0A%20%20%20%20%20%20%20%20'h2'%2C%0A%20%20%20%20%20%20%20%20'h3'%2C%0A%20%20%20%20%20%20%20%20'h4'%2C%0A%20%20%20%20%20%20%20%20'h5'%2C%0A%20%20%20%20%20%20%20%20'h6'%2C%0A%20%20%20%20%20%20%20%20'td'%2C%0A%20%20%20%20%20%20%20%20'li'%2C%0A%20%20%20%20%20%20%20%20'section'%2C%0A%20%20%20%20%20%20%20%20'div'%2C%0A%20%20%20%20%20%20%20%20'input'%2C%0A%20%20%20%20%20%20%20%20'button'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'b'%2C%0A%20%20%20%20%20%20%20%20'strong'%2C%0A%20%20%20%20%20%20%20%20'em'%2C%0A%20%20%20%20%20%20%20%20'pre'%2C%0A%20%20%20%20%20%20%20%20'footer'%2C%0A%20%20%20%20%20%20%20%20'cite'%2C%0A%20%20%20%20%20%20%20%20'time'%2C%0A%20%20%20%20%20%20%20%20'abbr'%2C%0A%20%20%20%20%20%20%20%20'del'%2C%0A%20%20%20%20%20%20%20%20'sub'%2C%0A%20%20%20%20%20%20%20%20'dd'%2C%0A%20%20%20%20%20%20%20%20'dt'%2C%0A%20%20%20%20%20%20%20%20'legend'%2C%0A%20%20%20%20%20%20%20%20'q'%2C%0A%20%20%20%20%20%20%20%20'mark'%2C%0A%20%20%20%20%20%20%20%20'samp'%2C%0A%20%20%20%20%20%20%20%20'ins'%2C%0A%20%20%20%20%20%20%20%20'var'%2C%0A%20%20%20%20%20%20%20%20'i'%2C%0A%20%20%20%20%20%20%20%20'dfn'%2C%0A%20%20%20%20%20%20%20%20'code'%0A%20%20%20%20%5D.includes(node.parentElement.localName))%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_ACCEPT%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_SKIP%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20getTextNodes()%20%7B%0A%20%20%20%20var%20walk%20%3D%20document.createTreeWalker(document.body%2C%20NodeFilter.SHOW_TEXT%2C%20%7B%20acceptNode%3A%20textFilter%20%7D%2C%20true)%3B%0A%20%20%20%20var%20n%2C%20a%20%3D%20%5B%5D%3B%0A%20%20%20%20while%20((n%20%3D%20walk.nextNode()))%0A%20%20%20%20%20%20%20%20a.push(n)%3B%0A%20%20%20%20return%20a%3B%0A%7D%0Afunction%20shouldWrap(className)%20%7B%0A%20%20%20%20return%20document.getElementsByClassName(className).length%20%3D%3D%3D%200%3B%0A%7D%0Afunction%20wrapCharacters(className)%20%7B%0A%20%20%20%20return%20new%20Promise((resolve%2C%20reject)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20Get%20all%20text%20nodes%20in%20DOM%0A%20%20%20%20%20%20%20%20let%20textNodes%20%3D%20getTextNodes()%3B%0A%20%20%20%20%20%20%20%20for%20(let%20textNode%20of%20textNodes)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Split%20node%20up%20into%20individual%20letters%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20text%20%3D%20textNode.textContent%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20textArray%20%3D%20text%3F.split('')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Generate%20the%20new%20element%20for%20each%20letter.%0A%20%20%20%20%20%20%20%20%20%20%20%20textArray%3F.map((char)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20elemChar%20%3D%20document.createElement('span')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20isEmptySpace%20%3D%20char%20%3D%3D%3D%20'%20'%20%7C%7C%20char%20%3D%3D%3D%20'%5Cn'%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.textContent%20%3D%20char%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20if%20(!isEmptySpace)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.setAttribute('class'%2C%20className)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.insertBefore(elemChar%2C%20textNode)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20return%20elemChar%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.removeChild(textNode)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20resolve(className)%3B%0A%20%20%20%20%7D)%3B%0A%7D%0Afunction%20deployWrapperFunction(className%2C%20wrapperFunc)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20for%20(let%20index%20%3D%200%3B%20index%20%3C%20elems.length%3B%20index%2B%2B)%20%7B%0A%20%20%20%20%20%20%20%20const%20element%20%3D%20elems%5Bindex%5D%3B%0A%20%20%20%20%20%20%20%20wrapperFunc(element)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20RANSOMIFY%0Aconst%20hex2Rgb%20%3D%20function%20(hex)%20%7B%0A%20%20%20%20const%20result%20%3D%20%2F%5E%23%3F(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)%24%2Fi.exec(hex)%3B%0A%20%20%20%20return%20result%0A%20%20%20%20%20%20%20%20%3F%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20r%3A%20parseInt(result%5B1%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20g%3A%20parseInt(result%5B2%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20b%3A%20parseInt(result%5B3%5D%2C%2016)%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%3A%20%7B%20r%3A%200%2C%20g%3A%200%2C%20b%3A%200%20%7D%3B%0A%7D%3B%0Afunction%20luminance(r%2C%20g%2C%20b)%20%7B%0A%20%20%20%20const%20a%20%3D%20%5Br%2C%20g%2C%20b%5D.map(function%20(v)%20%7B%0A%20%20%20%20%20%20%20%20v%20%2F%3D%20255%3B%0A%20%20%20%20%20%20%20%20return%20v%20%3C%3D%200.03928%20%3F%20v%20%2F%2012.92%20%3A%20Math.pow((v%20%2B%200.055)%20%2F%201.055%2C%202.4)%3B%0A%20%20%20%20%7D)%3B%0A%20%20%20%20return%20a%5B0%5D%20*%200.2126%20%2B%20a%5B1%5D%20*%200.7152%20%2B%20a%5B2%5D%20*%200.0722%3B%0A%7D%0Afunction%20contrast(rgb1%2C%20rgb2)%20%7B%0A%20%20%20%20const%20lum1%20%3D%20luminance(rgb1.r%2C%20rgb1.g%2C%20rgb1.b)%3B%0A%20%20%20%20const%20lum2%20%3D%20luminance(rgb2.r%2C%20rgb2.g%2C%20rgb2.b)%3B%0A%20%20%20%20const%20brightest%20%3D%20Math.max(lum1%2C%20lum2)%3B%0A%20%20%20%20const%20darkest%20%3D%20Math.min(lum1%2C%20lum2)%3B%0A%20%20%20%20return%20(brightest%20%2B%200.05)%20%2F%20(darkest%20%2B%200.05)%3B%0A%7D%0Afunction%20setFontColors(elemChar)%20%7B%0A%20%20%20%20let%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20let%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20while%20(contrast(hex2Rgb(fontColor)%2C%20hex2Rgb(fontBackgroundColor))%20%3C%206)%20%7B%0A%20%20%20%20%20%20%20%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%20%20%20%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%7D%0A%20%20%20%20elemChar.style.setProperty('color'%2C%20fontColor)%3B%0A%20%20%20%20elemChar.style.setProperty('background-color'%2C%20fontBackgroundColor)%3B%0A%7D%0Afunction%20getRandomFromArray(array)%20%7B%0A%20%20%20%20return%20array%5BMath.floor(Math.random()%20*%20array.length)%5D%3B%0A%7D%0Afunction%20randomPixelSizeGen(multiplier%2C%20sizeFloor)%20%7B%0A%20%20%20%20const%20randomNum%20%3D%20Math.floor(Math.random()%20*%20multiplier)%3B%0A%20%20%20%20return%20randomNum%20%3E%20sizeFloor%0A%20%20%20%20%20%20%20%20%3F%20randomNum.toString()%20%2B%20'px'%0A%20%20%20%20%20%20%20%20%3A%20sizeFloor.toString()%20%2B%20'px'%3B%0A%7D%0Afunction%20randomColorGen()%20%7B%0A%20%20%20%20const%20colorArray%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'%23ffaf12'%2C%0A%20%20%20%20%20%20%20%20'%2334558b'%2C%0A%20%20%20%20%20%20%20%20'%234ec5a5'%2C%0A%20%20%20%20%20%20%20%20'%23565d47'%2C%0A%20%20%20%20%20%20%20%20'%23798fa8'%2C%0A%20%20%20%20%20%20%20%20'%23fd823e'%2C%0A%20%20%20%20%20%20%20%20'%23117893'%2C%0A%20%20%20%20%20%20%20%20'%23f0daa4'%2C%0A%20%20%20%20%20%20%20%20'%23eaac9d'%2C%0A%20%20%20%20%20%20%20%20'%23a2553a'%2C%0A%20%20%20%20%20%20%20%20'%2372617d'%2C%0A%20%20%20%20%20%20%20%20'%23b49c73'%2C%0A%20%20%20%20%20%20%20%20'%233b3d4b'%2C%0A%20%20%20%20%20%20%20%20'%23eff0f1'%2C%0A%20%20%20%20%20%20%20%20'%23a09d9c'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(colorArray)%3B%0A%7D%0Afunction%20randomFontCapitalizationGen()%20%7B%0A%20%20%20%20return%20Math.round(Math.random())%20%3D%3D%3D%201%20%3F%20'uppercase'%20%3A%20'lowercase'%3B%0A%7D%0Afunction%20randomFontGen()%20%7B%0A%20%20%20%20const%20fonts%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'Agency%20FB'%2C%0A%20%20%20%20%20%20%20%20'Albertina'%2C%0A%20%20%20%20%20%20%20%20'Antiqua'%2C%0A%20%20%20%20%20%20%20%20'Architect'%2C%0A%20%20%20%20%20%20%20%20'Arial'%2C%0A%20%20%20%20%20%20%20%20'BankFuturistic'%2C%0A%20%20%20%20%20%20%20%20'BankGothic'%2C%0A%20%20%20%20%20%20%20%20'Blackletter'%2C%0A%20%20%20%20%20%20%20%20'Blagovest'%2C%0A%20%20%20%20%20%20%20%20'Calibri'%2C%0A%20%20%20%20%20%20%20%20'Comic%20Sans%20MS'%2C%0A%20%20%20%20%20%20%20%20'Consolas'%2C%0A%20%20%20%20%20%20%20%20'Courier'%2C%0A%20%20%20%20%20%20%20%20'Cursive'%2C%0A%20%20%20%20%20%20%20%20'Decorative'%2C%0A%20%20%20%20%20%20%20%20'Fantasy'%2C%0A%20%20%20%20%20%20%20%20'Fraktur'%2C%0A%20%20%20%20%20%20%20%20'Frosty'%2C%0A%20%20%20%20%20%20%20%20'Garamond'%2C%0A%20%20%20%20%20%20%20%20'Georgia'%2C%0A%20%20%20%20%20%20%20%20'Helvetica'%2C%0A%20%20%20%20%20%20%20%20'Impact'%2C%0A%20%20%20%20%20%20%20%20'Minion'%2C%0A%20%20%20%20%20%20%20%20'Modern'%2C%0A%20%20%20%20%20%20%20%20'Monospace'%2C%0A%20%20%20%20%20%20%20%20'Open%20Sans'%2C%0A%20%20%20%20%20%20%20%20'Palatino'%2C%0A%20%20%20%20%20%20%20%20'Perpetua'%2C%0A%20%20%20%20%20%20%20%20'Roman'%2C%0A%20%20%20%20%20%20%20%20'Sans-serif'%2C%0A%20%20%20%20%20%20%20%20'Serif'%2C%0A%20%20%20%20%20%20%20%20'Script'%2C%0A%20%20%20%20%20%20%20%20'Swiss'%2C%0A%20%20%20%20%20%20%20%20'Tahoma'%2C%0A%20%20%20%20%20%20%20%20'Times'%2C%0A%20%20%20%20%20%20%20%20'Times%20New%20Roman'%2C%0A%20%20%20%20%20%20%20%20'Tw%20Cen%20MT'%2C%0A%20%20%20%20%20%20%20%20'Verdana'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(fonts)%3B%0A%7D%0Afunction%20randomRotationGen()%20%7B%0A%20%20%20%20return%20%60rotate(%24%7BMath.random()%20*%204%20-%20Math.random()%20*%204%7Ddeg)%60%3B%0A%7D%0Afunction%20ransomify(spanEl)%20%7B%0A%20%20%20%20setFontColors(spanEl)%3B%0A%20%20%20%20spanEl.style.setProperty('font-family'%2C%20randomFontGen())%3B%0A%20%20%20%20spanEl.style.setProperty('text-transform'%2C%20randomFontCapitalizationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('right'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('bottom'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('font-size'%2C%20randomPixelSizeGen(20%2C%2015))%3B%0A%20%20%20%20spanEl.style.setProperty('transform'%2C%20randomRotationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('display'%2C%20'inline-block')%3B%0A%20%20%20%20spanEl.style.setProperty('padding'%2C%20'0%201px%3B')%3B%0A%20%20%20%20spanEl.style.setProperty('box-shadow'%2C%20'0px%201px%200px%200px%20%230000003')%3B%0A%7D%0Aasync%20function%20ransomifyAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20SLOWLY%20LOSE%20IT%0Afunction%20getRandomDistance()%20%7B%0A%20%20%20%20const%20factor%20%3D%204%3B%0A%20%20%20%20let%20num%20%3D%20Math.random()%20*%20factor%3B%0A%20%20%20%20num%20*%3D%20Math.floor(Math.random()%20*%202)%20%3D%3D%3D%201%20%3F%201%20%3A%20-1%3B%0A%20%20%20%20return%20num%3B%0A%7D%0Afunction%20moveRandomly(el)%20%7B%0A%20%20%20%20const%20directions%20%3D%20%5B'top'%2C%20'left'%5D%3B%0A%20%20%20%20for%20(const%20prop%20of%20directions)%20%7B%0A%20%20%20%20%20%20%20%20const%20pos%20%3D%20el.style%5Bprop%5D%3B%0A%20%20%20%20%20%20%20%20const%20pos_%20%3D%20parseInt(pos.substr(0%2C%20pos.length%20-%202))%20%2B%20getRandomDistance()%3B%0A%20%20%20%20%20%20%20%20el.style.setProperty(prop%2C%20%60%24%7Bpos_%7Dpx%60)%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20genRandomMoves(className)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20window.setInterval(function%20()%20%7B%0A%20%20%20%20%20%20%20%20const%20el%20%3D%20elems%5BMath.floor(Math.random()%20*%20elems.length)%5D%3B%0A%20%20%20%20%20%20%20%20moveRandomly(el)%3B%0A%20%20%20%20%20%20%20%20console.log('Moved%20element')%3B%0A%20%20%20%20%20%20%20%20console.log(el.style.getPropertyValue('top')%20%3D%3D%3D%20'')%3B%0A%20%20%20%20%7D%2C%205)%3B%0A%7D%0Afunction%20slowlyLoseIt(spanEl)%20%7B%0A%20%20%20%20spanEl.style.setProperty('position'%2C%20'relative')%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20'0px')%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20'0px')%3B%0A%7D%0Aasync%20function%20slowlyLoseItAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%7D%0AslowlyLoseItAll('all-chars')%3B%7D)()%3B">
+                        <span style="position: relative; top: -1px; left: 0px">m</span><span
+                            style="position: relative; top: 0px; left: 0px">o</span><span style="
+                                    position: relative;
+                                    top: 0.77469px;
+                                    left: 0.7523012px;
+                                ">v</span><span style="position: relative; top: 0px; left: 0px">e</span><span
+                            style="position: relative; top: 0px; left: 0px">-</span><span
+                            style="position: relative; top: 0px; left: 0px">a</span><span
+                            style="position: relative; top: 0px; left: 0px">-</span><span
+                            style="position: relative; top: 0px; left: 0px">l</span><span style="
+                                    position: relative;
+                                    top: -1.77469px;
+                                    left: 0.75012px;
+                                ">i</span><span style="position: relative; top: 0px; left: 0px">t</span><span style="
+                                    position: relative;
+                                    top: -1.29772px;
+                                    left: 0.37781px;
+                                ">t</span><span style="position: relative; top: 0px; left: 0px">l</span><span
+                            style="position: relative; top: 0px; left: 0px">e</span><span> </span>
+                    </a>
+                </li>
+                <li><a
+                        href="javascript:(function()%7B%22use%20strict%22%3B%0A%2F%2F%20WRAPPER%0Afunction%20textFilter(node)%20%7B%0A%20%20%20%20if%20(%5B%0A%20%20%20%20%20%20%20%20'p'%2C%0A%20%20%20%20%20%20%20%20'span'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'a'%2C%0A%20%20%20%20%20%20%20%20'h1'%2C%0A%20%20%20%20%20%20%20%20'h2'%2C%0A%20%20%20%20%20%20%20%20'h3'%2C%0A%20%20%20%20%20%20%20%20'h4'%2C%0A%20%20%20%20%20%20%20%20'h5'%2C%0A%20%20%20%20%20%20%20%20'h6'%2C%0A%20%20%20%20%20%20%20%20'td'%2C%0A%20%20%20%20%20%20%20%20'li'%2C%0A%20%20%20%20%20%20%20%20'section'%2C%0A%20%20%20%20%20%20%20%20'div'%2C%0A%20%20%20%20%20%20%20%20'input'%2C%0A%20%20%20%20%20%20%20%20'button'%2C%0A%20%20%20%20%20%20%20%20'label'%2C%0A%20%20%20%20%20%20%20%20'b'%2C%0A%20%20%20%20%20%20%20%20'strong'%2C%0A%20%20%20%20%20%20%20%20'em'%2C%0A%20%20%20%20%20%20%20%20'pre'%2C%0A%20%20%20%20%20%20%20%20'footer'%2C%0A%20%20%20%20%20%20%20%20'cite'%2C%0A%20%20%20%20%20%20%20%20'time'%2C%0A%20%20%20%20%20%20%20%20'abbr'%2C%0A%20%20%20%20%20%20%20%20'del'%2C%0A%20%20%20%20%20%20%20%20'sub'%2C%0A%20%20%20%20%20%20%20%20'dd'%2C%0A%20%20%20%20%20%20%20%20'dt'%2C%0A%20%20%20%20%20%20%20%20'legend'%2C%0A%20%20%20%20%20%20%20%20'q'%2C%0A%20%20%20%20%20%20%20%20'mark'%2C%0A%20%20%20%20%20%20%20%20'samp'%2C%0A%20%20%20%20%20%20%20%20'ins'%2C%0A%20%20%20%20%20%20%20%20'var'%2C%0A%20%20%20%20%20%20%20%20'i'%2C%0A%20%20%20%20%20%20%20%20'dfn'%2C%0A%20%20%20%20%20%20%20%20'code'%0A%20%20%20%20%5D.includes(node.parentElement.localName))%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_ACCEPT%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20return%20NodeFilter.FILTER_SKIP%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20getTextNodes()%20%7B%0A%20%20%20%20var%20walk%20%3D%20document.createTreeWalker(document.body%2C%20NodeFilter.SHOW_TEXT%2C%20%7B%20acceptNode%3A%20textFilter%20%7D%2C%20true)%3B%0A%20%20%20%20var%20n%2C%20a%20%3D%20%5B%5D%3B%0A%20%20%20%20while%20((n%20%3D%20walk.nextNode()))%0A%20%20%20%20%20%20%20%20a.push(n)%3B%0A%20%20%20%20return%20a%3B%0A%7D%0Afunction%20shouldWrap(className)%20%7B%0A%20%20%20%20return%20document.getElementsByClassName(className).length%20%3D%3D%3D%200%3B%0A%7D%0Afunction%20wrapCharacters(className)%20%7B%0A%20%20%20%20return%20new%20Promise((resolve%2C%20reject)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20Get%20all%20text%20nodes%20in%20DOM%0A%20%20%20%20%20%20%20%20let%20textNodes%20%3D%20getTextNodes()%3B%0A%20%20%20%20%20%20%20%20for%20(let%20textNode%20of%20textNodes)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Split%20node%20up%20into%20individual%20letters%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20text%20%3D%20textNode.textContent%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20let%20textArray%20%3D%20text%3F.split('')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Generate%20the%20new%20element%20for%20each%20letter.%0A%20%20%20%20%20%20%20%20%20%20%20%20textArray%3F.map((char)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20elemChar%20%3D%20document.createElement('span')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20isEmptySpace%20%3D%20char%20%3D%3D%3D%20'%20'%20%7C%7C%20char%20%3D%3D%3D%20'%5Cn'%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.textContent%20%3D%20char%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20if%20(!isEmptySpace)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20elemChar.setAttribute('class'%2C%20className)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.insertBefore(elemChar%2C%20textNode)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20return%20elemChar%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20textNode.parentNode%3F.removeChild(textNode)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20resolve(className)%3B%0A%20%20%20%20%7D)%3B%0A%7D%0Afunction%20deployWrapperFunction(className%2C%20wrapperFunc)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20for%20(let%20index%20%3D%200%3B%20index%20%3C%20elems.length%3B%20index%2B%2B)%20%7B%0A%20%20%20%20%20%20%20%20const%20element%20%3D%20elems%5Bindex%5D%3B%0A%20%20%20%20%20%20%20%20wrapperFunc(element)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20RANSOMIFY%0Aconst%20hex2Rgb%20%3D%20function%20(hex)%20%7B%0A%20%20%20%20const%20result%20%3D%20%2F%5E%23%3F(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)(%5Ba-f%5Cd%5D%7B2%7D)%24%2Fi.exec(hex)%3B%0A%20%20%20%20return%20result%0A%20%20%20%20%20%20%20%20%3F%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20r%3A%20parseInt(result%5B1%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20g%3A%20parseInt(result%5B2%5D%2C%2016)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20b%3A%20parseInt(result%5B3%5D%2C%2016)%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%3A%20%7B%20r%3A%200%2C%20g%3A%200%2C%20b%3A%200%20%7D%3B%0A%7D%3B%0Afunction%20luminance(r%2C%20g%2C%20b)%20%7B%0A%20%20%20%20const%20a%20%3D%20%5Br%2C%20g%2C%20b%5D.map(function%20(v)%20%7B%0A%20%20%20%20%20%20%20%20v%20%2F%3D%20255%3B%0A%20%20%20%20%20%20%20%20return%20v%20%3C%3D%200.03928%20%3F%20v%20%2F%2012.92%20%3A%20Math.pow((v%20%2B%200.055)%20%2F%201.055%2C%202.4)%3B%0A%20%20%20%20%7D)%3B%0A%20%20%20%20return%20a%5B0%5D%20*%200.2126%20%2B%20a%5B1%5D%20*%200.7152%20%2B%20a%5B2%5D%20*%200.0722%3B%0A%7D%0Afunction%20contrast(rgb1%2C%20rgb2)%20%7B%0A%20%20%20%20const%20lum1%20%3D%20luminance(rgb1.r%2C%20rgb1.g%2C%20rgb1.b)%3B%0A%20%20%20%20const%20lum2%20%3D%20luminance(rgb2.r%2C%20rgb2.g%2C%20rgb2.b)%3B%0A%20%20%20%20const%20brightest%20%3D%20Math.max(lum1%2C%20lum2)%3B%0A%20%20%20%20const%20darkest%20%3D%20Math.min(lum1%2C%20lum2)%3B%0A%20%20%20%20return%20(brightest%20%2B%200.05)%20%2F%20(darkest%20%2B%200.05)%3B%0A%7D%0Afunction%20setFontColors(elemChar)%20%7B%0A%20%20%20%20let%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20let%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20while%20(contrast(hex2Rgb(fontColor)%2C%20hex2Rgb(fontBackgroundColor))%20%3C%206)%20%7B%0A%20%20%20%20%20%20%20%20fontColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%20%20%20%20fontBackgroundColor%20%3D%20randomColorGen()%3B%0A%20%20%20%20%7D%0A%20%20%20%20elemChar.style.setProperty('color'%2C%20fontColor)%3B%0A%20%20%20%20elemChar.style.setProperty('background-color'%2C%20fontBackgroundColor)%3B%0A%7D%0Afunction%20getRandomFromArray(array)%20%7B%0A%20%20%20%20return%20array%5BMath.floor(Math.random()%20*%20array.length)%5D%3B%0A%7D%0Afunction%20randomPixelSizeGen(multiplier%2C%20sizeFloor)%20%7B%0A%20%20%20%20const%20randomNum%20%3D%20Math.floor(Math.random()%20*%20multiplier)%3B%0A%20%20%20%20return%20randomNum%20%3E%20sizeFloor%0A%20%20%20%20%20%20%20%20%3F%20randomNum.toString()%20%2B%20'px'%0A%20%20%20%20%20%20%20%20%3A%20sizeFloor.toString()%20%2B%20'px'%3B%0A%7D%0Afunction%20randomColorGen()%20%7B%0A%20%20%20%20const%20colorArray%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'%23ffaf12'%2C%0A%20%20%20%20%20%20%20%20'%2334558b'%2C%0A%20%20%20%20%20%20%20%20'%234ec5a5'%2C%0A%20%20%20%20%20%20%20%20'%23565d47'%2C%0A%20%20%20%20%20%20%20%20'%23798fa8'%2C%0A%20%20%20%20%20%20%20%20'%23fd823e'%2C%0A%20%20%20%20%20%20%20%20'%23117893'%2C%0A%20%20%20%20%20%20%20%20'%23f0daa4'%2C%0A%20%20%20%20%20%20%20%20'%23eaac9d'%2C%0A%20%20%20%20%20%20%20%20'%23a2553a'%2C%0A%20%20%20%20%20%20%20%20'%2372617d'%2C%0A%20%20%20%20%20%20%20%20'%23b49c73'%2C%0A%20%20%20%20%20%20%20%20'%233b3d4b'%2C%0A%20%20%20%20%20%20%20%20'%23eff0f1'%2C%0A%20%20%20%20%20%20%20%20'%23a09d9c'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(colorArray)%3B%0A%7D%0Afunction%20randomFontCapitalizationGen()%20%7B%0A%20%20%20%20return%20Math.round(Math.random())%20%3D%3D%3D%201%20%3F%20'uppercase'%20%3A%20'lowercase'%3B%0A%7D%0Afunction%20randomFontGen()%20%7B%0A%20%20%20%20const%20fonts%20%3D%20%5B%0A%20%20%20%20%20%20%20%20'Agency%20FB'%2C%0A%20%20%20%20%20%20%20%20'Albertina'%2C%0A%20%20%20%20%20%20%20%20'Antiqua'%2C%0A%20%20%20%20%20%20%20%20'Architect'%2C%0A%20%20%20%20%20%20%20%20'Arial'%2C%0A%20%20%20%20%20%20%20%20'BankFuturistic'%2C%0A%20%20%20%20%20%20%20%20'BankGothic'%2C%0A%20%20%20%20%20%20%20%20'Blackletter'%2C%0A%20%20%20%20%20%20%20%20'Blagovest'%2C%0A%20%20%20%20%20%20%20%20'Calibri'%2C%0A%20%20%20%20%20%20%20%20'Comic%20Sans%20MS'%2C%0A%20%20%20%20%20%20%20%20'Consolas'%2C%0A%20%20%20%20%20%20%20%20'Courier'%2C%0A%20%20%20%20%20%20%20%20'Cursive'%2C%0A%20%20%20%20%20%20%20%20'Decorative'%2C%0A%20%20%20%20%20%20%20%20'Fantasy'%2C%0A%20%20%20%20%20%20%20%20'Fraktur'%2C%0A%20%20%20%20%20%20%20%20'Frosty'%2C%0A%20%20%20%20%20%20%20%20'Garamond'%2C%0A%20%20%20%20%20%20%20%20'Georgia'%2C%0A%20%20%20%20%20%20%20%20'Helvetica'%2C%0A%20%20%20%20%20%20%20%20'Impact'%2C%0A%20%20%20%20%20%20%20%20'Minion'%2C%0A%20%20%20%20%20%20%20%20'Modern'%2C%0A%20%20%20%20%20%20%20%20'Monospace'%2C%0A%20%20%20%20%20%20%20%20'Open%20Sans'%2C%0A%20%20%20%20%20%20%20%20'Palatino'%2C%0A%20%20%20%20%20%20%20%20'Perpetua'%2C%0A%20%20%20%20%20%20%20%20'Roman'%2C%0A%20%20%20%20%20%20%20%20'Sans-serif'%2C%0A%20%20%20%20%20%20%20%20'Serif'%2C%0A%20%20%20%20%20%20%20%20'Script'%2C%0A%20%20%20%20%20%20%20%20'Swiss'%2C%0A%20%20%20%20%20%20%20%20'Tahoma'%2C%0A%20%20%20%20%20%20%20%20'Times'%2C%0A%20%20%20%20%20%20%20%20'Times%20New%20Roman'%2C%0A%20%20%20%20%20%20%20%20'Tw%20Cen%20MT'%2C%0A%20%20%20%20%20%20%20%20'Verdana'%0A%20%20%20%20%5D%3B%0A%20%20%20%20return%20getRandomFromArray(fonts)%3B%0A%7D%0Afunction%20randomRotationGen()%20%7B%0A%20%20%20%20return%20%60rotate(%24%7BMath.random()%20*%204%20-%20Math.random()%20*%204%7Ddeg)%60%3B%0A%7D%0Afunction%20ransomify(spanEl)%20%7B%0A%20%20%20%20setFontColors(spanEl)%3B%0A%20%20%20%20spanEl.style.setProperty('font-family'%2C%20randomFontGen())%3B%0A%20%20%20%20spanEl.style.setProperty('text-transform'%2C%20randomFontCapitalizationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('right'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('bottom'%2C%20randomPixelSizeGen(3%2C%201))%3B%0A%20%20%20%20spanEl.style.setProperty('font-size'%2C%20randomPixelSizeGen(20%2C%2015))%3B%0A%20%20%20%20spanEl.style.setProperty('transform'%2C%20randomRotationGen())%3B%0A%20%20%20%20spanEl.style.setProperty('display'%2C%20'inline-block')%3B%0A%20%20%20%20spanEl.style.setProperty('padding'%2C%20'0%201px%3B')%3B%0A%20%20%20%20spanEl.style.setProperty('box-shadow'%2C%20'0px%201px%200px%200px%20%230000003')%3B%0A%7D%0Aasync%20function%20ransomifyAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20ransomify)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20SLOWLY%20LOSE%20IT%0Afunction%20getRandomDistance()%20%7B%0A%20%20%20%20const%20factor%20%3D%204%3B%0A%20%20%20%20let%20num%20%3D%20Math.random()%20*%20factor%3B%0A%20%20%20%20num%20*%3D%20Math.floor(Math.random()%20*%202)%20%3D%3D%3D%201%20%3F%201%20%3A%20-1%3B%0A%20%20%20%20return%20num%3B%0A%7D%0Afunction%20moveRandomly(el)%20%7B%0A%20%20%20%20const%20directions%20%3D%20%5B'top'%2C%20'left'%5D%3B%0A%20%20%20%20for%20(const%20prop%20of%20directions)%20%7B%0A%20%20%20%20%20%20%20%20const%20pos%20%3D%20el.style%5Bprop%5D%3B%0A%20%20%20%20%20%20%20%20const%20pos_%20%3D%20parseInt(pos.substr(0%2C%20pos.length%20-%202))%20%2B%20getRandomDistance()%3B%0A%20%20%20%20%20%20%20%20el.style.setProperty(prop%2C%20%60%24%7Bpos_%7Dpx%60)%3B%0A%20%20%20%20%7D%0A%7D%0Afunction%20genRandomMoves(className)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20window.setInterval(function%20()%20%7B%0A%20%20%20%20%20%20%20%20const%20el%20%3D%20elems%5BMath.floor(Math.random()%20*%20elems.length)%5D%3B%0A%20%20%20%20%20%20%20%20moveRandomly(el)%3B%0A%20%20%20%20%20%20%20%20console.log('Moved%20element')%3B%0A%20%20%20%20%20%20%20%20console.log(el.style.getPropertyValue('top')%20%3D%3D%3D%20'')%3B%0A%20%20%20%20%7D%2C%205)%3B%0A%7D%0Afunction%20slowlyLoseIt(spanEl)%20%7B%0A%20%20%20%20spanEl.style.setProperty('position'%2C%20'relative')%3B%0A%20%20%20%20spanEl.style.setProperty('top'%2C%20'0px')%3B%0A%20%20%20%20spanEl.style.setProperty('left'%2C%20'0px')%3B%0A%7D%0Aasync%20function%20slowlyLoseItAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20deployWrapperFunction(className%2C%20slowlyLoseIt)%3B%0A%20%20%20%20%20%20%20%20genRandomMoves(className)%3B%0A%20%20%20%20%7D%0A%7D%0A%2F%2F%20SOLAR%20FLARES%0Afunction%20selectForFlare(className)%20%7B%0A%20%20%20%20const%20elems%20%3D%20document.getElementsByClassName(className)%3B%0A%20%20%20%20window.setInterval(function%20()%20%7B%0A%20%20%20%20%20%20%20%20const%20el%20%3D%20elems%5BMath.floor(Math.random()%20*%20elems.length)%5D%3B%0A%20%20%20%20%20%20%20%20solarFlare(el)%3B%0A%20%20%20%20%7D%2C%201000)%3B%0A%7D%0Afunction%20solarFlare(spanEl)%20%7B%0A%20%20%20%20spanEl.style.setProperty('transition'%2C%20'box-shadow%201s')%3B%0A%20%20%20%20spanEl.style.setProperty('box-shadow'%2C%20'0%200%201000px%20500px%20yellow')%3B%0A%20%20%20%20window.setTimeout(function%20()%20%7B%0A%20%20%20%20%20%20%20%20spanEl.style.setProperty('box-shadow'%2C%20'none')%3B%0A%20%20%20%20%7D%2C%201000)%3B%0A%7D%0Aasync%20function%20solarFlareAll(className)%20%7B%0A%20%20%20%20if%20(shouldWrap(className))%20%7B%0A%20%20%20%20%20%20%20%20await%20wrapCharacters(className)%3B%0A%20%20%20%20%20%20%20%20selectForFlare(className)%3B%0A%20%20%20%20%7D%0A%20%20%20%20else%20%7B%0A%20%20%20%20%20%20%20%20selectForFlare(className)%3B%0A%20%20%20%20%7D%0A%7D%0AsolarFlareAll('all-chars')%3B%7D)()%3B">Sola<span
+                            style="box-shadow: 0 0 4px 4px yellow">r</span> Flare</a></li>
+            </ul>
+        </div>
+        <h4>A bunch of HTML to mess with:</h4>
+        <div class="example">
+            <h1>Living weather 3434 Gollum speech niece.</h1>
+            <p>
+                Echoes tries Bombur's wheeled 12 seeks? Between strategic cured
+                Éomund sit brooded paws. I gave you the chance of aiding me
+                willingly, but you have elected the way of pain!
+            </p>
+            <h2>Idiot 12 mighty Dory consistency 400.</h2>
+            <p>
+                Proper chasm Rosie coat dance agree rock whyfors crash swore.
+                Whisper suffering Lasgalen stabbed traveling poured. I will take
+                the Ring to Mordor. Mellon resolved outrun carrots of payment
+                surrounded.
+            </p>
+            <h3>Conjurer inquisitive 60 Fili sent warmongering princeling.</h3>
+            <p>
+                Clever Esgaroth curtain. Legions establishment ended chair
+                feelings Earendil door. One Ring to rule them all.
+            </p>
+            <ul>
+                <li>Gamgee.</li>
+                <li>Galadriel.</li>
+                <li>Alfrid.</li>
+                <li>Mithrandir.</li>
+                <li>Wilds?</li>
+            </ul>
+            <ul>
+                <li>
+                    Washing Lothlórien sharpened feet dragon twirley-whirlies.
+                </li>
+                <li>
+                    Cliff fixed Earth loosened hooded soon approaches gloom.
+                </li>
+                <li>Relations bad Ranger lanterns rats chicken boats!</li>
+                <li>Swim approach strengthened bits shiny woodland Gríma.</li>
+                <li>
+                    Forgot wrath Lothlórien wheeled return intent sweeps calls
+                    sending among?
+                </li>
+            </ul>
+            <h3>Feverfew greater hardship abyss ask Frogmorton carried!</h3>
+            <p>
+                Mainly consider Goblin-mutant war pushing top gives undeceased
+                lowly valued exchanged families. Don't you leave him, Samwise
+                Gamgee. Legolas ago aid unlikely excellent.
+            </p>
+            <ol>
+                <li>Understand.</li>
+                <li>Braga.</li>
+                <li>Rauros.</li>
+                <li>Elf-maiden!</li>
+                <li>Pip.</li>
+            </ol>
+            <ol>
+                <li>
+                    Help grievances eight tweens asking Radagast the Brown
+                    glowers key-hole invisible possibly.
+                </li>
+                <li>
+                    Tollgate Radagast the Brown seat feasting flatten rallied
+                    nasty resilience shaft.
+                </li>
+                <li>
+                    Dock Aragorn doubted pledged éored seasoning invite shaken
+                    tollgate received.
+                </li>
+                <li>Roof Galadhrim take two caught shatter handy people's!</li>
+                <li>
+                    Rent hey-diddle-diddle answerable halflings whips cloven
+                    Athelas.
+                </li>
+            </ol>
+            <h3>
+                Keepsakes biding thank lifetime crowbill Gorgoroth we've sees.
+            </h3>
+            <p>
+                You shall be the Fellowship of the Ring. Goblin-men fitted hutch
+                token dancing fools. Antique Gondor truly.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Wept</th>
+                        <th>Strangers</th>
+                        <th>Sailed</th>
+                        <th>Supplies</th>
+                        <th>Blowing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ere</td>
+                        <td>veiling</td>
+                        <td>merely</td>
+                        <td>told</td>
+                        <td>new</td>
+                        <td>provisions</td>
+                    </tr>
+                    <tr>
+                        <td>Private</td>
+                        <td>wipe</td>
+                        <td>unfit</td>
+                        <td>minds</td>
+                        <td>survival</td>
+                        <td>tombs</td>
+                    </tr>
+                    <tr>
+                        <td>Fend</td>
+                        <td>highest</td>
+                        <td>protuberance</td>
+                        <td>walks</td>
+                        <td>squealing</td>
+                        <td>exactly</td>
+                    </tr>
+                    <tr>
+                        <td>Invented</td>
+                        <td>deserted</td>
+                        <td>impossible</td>
+                        <td>upon</td>
+                        <td>learned</td>
+                        <td>throws</td>
+                    </tr>
+                    <tr>
+                        <td>Winter</td>
+                        <td>swears</td>
+                        <td>material</td>
+                        <td>master's</td>
+                        <td>forks</td>
+                        <td>path</td>
+                    </tr>
+                    <tr>
+                        <td>Bravely</td>
+                        <td>peoples</td>
+                        <td>darkness</td>
+                        <td>burned</td>
+                        <td>food</td>
+                        <td>courage</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>shreds</td>
+                        <td>making</td>
+                        <td>simple</td>
+                        <td>whispers</td>
+                        <td>promise</td>
+                        <td>animals</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <h4>Employment Treebeard's tasty trinket sire listening?</h4>
+            <p>
+                I have no memory of this place. Body Háma midday flash-flame
+                solitude. Madness ilk honest passed seize Kingdom find?
+                Invisible sprinkle market's accommodation Fenmarch.
+            </p>
+            <blockquote>
+                <p>Don't you leave him, Samwise Gamgee.</p>
+                <footer>
+                    —Wraith, <cite>handle meats tunnels launching dragged</cite>
+                </footer>
+            </blockquote>
+            <h5>Vengeance worth disappearance high sisters Elendil.</h5>
+            <p>
+                Hear my voice. Come back to the light. Worrywort deserve bound
+                pointing walk waste lovely crossing bodyguard venerable myth!
+                Sticking world being staying loose Luin escaped fool settlement
+                list. Boffins naysayer wandering falls stuffed vanquished.
+            </p>
+            <pre>
+    Fuel brave 111th floor Rauros. Bilbo rider birds hasty owes run. Decay counts sacks veiled Goblin-town.</pre>
+            <h6>Erebor stepped scrumptious middle tomato new.</h6>
+            <p>
+                <time>Dissuade</time> Anor o'clock noticed? Gundabad
+                <a>seams</a> innocent hate? Gloin brings
+                <var>secretive</var> tracked fails bur. Knots
+                <ins>needed terms</ins> coin tickle squealing Lórien. Smoking
+                <code>famished chokes</code> Wraiths squirrel fleet relic. Nose
+                <abbr>Théoden</abbr> spot trailing delved! Text Haldir real
+                halflings <cite>regain waste levels</cite>.
+                <dfn>Low dragons song stuck</dfn> fears cur flows heathen
+                Greenleaf. Amidst <q>Hobbit's Glamdring</q> colleague thousands
+                risked! Mereth t <del>oppose sister raise badly</del> freed.
+                Samwise Gamgee sun's bids barely raise
+                <samp>breeze ringing</samp>.
+                <mark>Offense job abroad accommodation</mark> veiling Edoras
+                drops. Cruel poison Galadriel <sub>carven</sub>. Disturbing
+                pickle <sup>Glamdring</sup> needed. Frying Dwarves work
+                <small>woe plain</small> malcontent? <kbd>A</kbd> heathen
+                Théoden's well-wishers.
+                <strong>Ranger Bolgers Tauriel</strong> ate shown thing among?
+                <em>Sauron Wraith Snowbourn Brandybucks Thorin's Understand</em>
+                older draining joined.
+            </p>
+            <hr />
+            <dl>
+                <dt>Fled</dt>
+                <dd>
+                    Said setting Goblin-men stronghold bears mother large goal
+                    sacrifice?
+                </dd>
+                <dt>Promises</dt>
+                <dd>
+                    Expenses fallen council moves picking nightshade locking
+                    Balin back?
+                </dd>
+                <dd>
+                    Slightest thunder trouble suck fault Sméag swimming fear
+                    myth.
+                </dd>
+                <dt>On</dt>
+                <dd>
+                    Devil mistook carven suspicious hand Eorlingas forests mug
+                    devils?
+                </dd>
+                <dd>
+                    Clad sweet-taking brings notion ropes Helm's Deep regain
+                    raising follow powers?
+                </dd>
+                <dd>
+                    Then infested greedily alight sworn Alfrid safety risen.
+                </dd>
+            </dl>
+            <form>
+                <fieldset>
+                    <legend>Crossing losing cleared</legend>
+                    <div>
+                        <label>Text</label>
+                        <input type="text" />
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        <input type="email" />
+                    </div>
+                    <div>
+                        <label>Password</label>
+                        <input type="password" />
+                    </div>
+                    <div>
+                        <label>Url</label>
+                        <input type="url" />
+                    </div>
+                    <div>
+                        <label>Number</label>
+                        <input type="number" />
+                    </div>
+                    <div>
+                        <label>Tel</label>
+                        <input type="tel" />
+                    </div>
+                    <div>
+                        <label>Search</label>
+                        <input type="search" />
+                    </div>
+                    <div>
+                        <label>Time</label>
+                        <input type="time" />
+                    </div>
+                    <div>
+                        <label>Date</label>
+                        <input type="date" />
+                    </div>
+                    <div>
+                        <label>Datetime-local</label>
+                        <input type="datetime-local" />
+                    </div>
+                    <div>
+                        <label>Week</label>
+                        <input type="week" />
+                    </div>
+                    <div>
+                        <label>Textarea</label>
+                        <textarea></textarea>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Any hutch</legend>
+                    <div>
+                        <label>Month</label>
+                        <input type="month" />
+                    </div>
+                    <div>
+                        <label><input type="checkbox" name="checkbox" />victory
+                            journeys</label>
+                    </div>
+                    <div>
+                        <label>Color</label>
+                        <input type="color" />
+                    </div>
+                    <div>
+                        <label>File</label>
+                        <input type="file" />
+                    </div>
+                    <div>
+                        <label>Hidden</label>
+                        <input type="hidden" />
+                    </div>
+                    <div>
+                        <label>Image</label>
+                        <input type="image" />
+                    </div>
+                    <div>
+                        <label>shepherd whim oaths spends feed</label>
+                        <label><input type="radio" name="radio" />spared
+                            nothing's</label>
+                        <label><input type="radio" name="radio" />escaped
+                            over</label>
+                        <label><input type="radio" name="radio" />nothing
+                            forgetting</label>
+                    </div>
+                    <div>
+                        <label>Range</label>
+                        <input type="range" />
+                    </div>
+                    <div>
+                        <input type="button" value="Button" />
+                    </div>
+                    <div>
+                        <input type="reset" value="Reset" />
+                    </div>
+                    <div>
+                        <input type="submit" value="Submit" />
+                    </div>
+                    <button>murder inferno winter-thickets</button>
+                    <div>
+                        <label>Select</label>
+                        <select>
+                            <optgroup label="nspection mother">
+                                <option>sowing</option>
+                                <option>hook</option>
+                                <option>proof</option>
+                            </optgroup>
+                            <optgroup label="iron-forged rods">
+                                <option>grievances</option>
+                                <option>northeast</option>
+                                <option>awake</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <h2>
+            Build your own!
+        </h2>
         <p>
-            Proper chasm Rosie coat dance agree rock whyfors crash swore.
-            Whisper suffering Lasgalen stabbed traveling poured. I will take
-            the Ring to Mordor. Mellon resolved outrun carrots of payment
-            surrounded.
+            Build your own letter-messer-upper with <a
+                href="https://github.com/willthefirst/letter-messer-upper/blob/master/buildYourOwn.js">this Javascript
+                template</a>.
         </p>
-        <h3>Conjurer inquisitive 60 Fili sent warmongering princeling.</h3>
-        <p>
-            Clever Esgaroth curtain. Legions establishment ended chair
-            feelings Earendil door. One Ring to rule them all.
-        </p>
-        <ul>
-            <li>Gamgee.</li>
-            <li>Galadriel.</li>
-            <li>Alfrid.</li>
-            <li>Mithrandir.</li>
-            <li>Wilds?</li>
-        </ul>
-        <ul>
-            <li>
-                Washing Lothlórien sharpened feet dragon twirley-whirlies.
-            </li>
-            <li>
-                Cliff fixed Earth loosened hooded soon approaches gloom.
-            </li>
-            <li>Relations bad Ranger lanterns rats chicken boats!</li>
-            <li>Swim approach strengthened bits shiny woodland Gríma.</li>
-            <li>
-                Forgot wrath Lothlórien wheeled return intent sweeps calls
-                sending among?
-            </li>
-        </ul>
-        <h3>Feverfew greater hardship abyss ask Frogmorton carried!</h3>
-        <p>
-            Mainly consider Goblin-mutant war pushing top gives undeceased
-            lowly valued exchanged families. Don't you leave him, Samwise
-            Gamgee. Legolas ago aid unlikely excellent.
-        </p>
-        <ol>
-            <li>Understand.</li>
-            <li>Braga.</li>
-            <li>Rauros.</li>
-            <li>Elf-maiden!</li>
-            <li>Pip.</li>
-        </ol>
-        <ol>
-            <li>
-                Help grievances eight tweens asking Radagast the Brown
-                glowers key-hole invisible possibly.
-            </li>
-            <li>
-                Tollgate Radagast the Brown seat feasting flatten rallied
-                nasty resilience shaft.
-            </li>
-            <li>
-                Dock Aragorn doubted pledged éored seasoning invite shaken
-                tollgate received.
-            </li>
-            <li>Roof Galadhrim take two caught shatter handy people's!</li>
-            <li>
-                Rent hey-diddle-diddle answerable halflings whips cloven
-                Athelas.
-            </li>
-        </ol>
-        <h3>
-            Keepsakes biding thank lifetime crowbill Gorgoroth we've sees.
-        </h3>
-        <p>
-            You shall be the Fellowship of the Ring. Goblin-men fitted hutch
-            token dancing fools. Antique Gondor truly.
-        </p>
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Wept</th>
-                    <th>Strangers</th>
-                    <th>Sailed</th>
-                    <th>Supplies</th>
-                    <th>Blowing</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Ere</td>
-                    <td>veiling</td>
-                    <td>merely</td>
-                    <td>told</td>
-                    <td>new</td>
-                    <td>provisions</td>
-                </tr>
-                <tr>
-                    <td>Private</td>
-                    <td>wipe</td>
-                    <td>unfit</td>
-                    <td>minds</td>
-                    <td>survival</td>
-                    <td>tombs</td>
-                </tr>
-                <tr>
-                    <td>Fend</td>
-                    <td>highest</td>
-                    <td>protuberance</td>
-                    <td>walks</td>
-                    <td>squealing</td>
-                    <td>exactly</td>
-                </tr>
-                <tr>
-                    <td>Invented</td>
-                    <td>deserted</td>
-                    <td>impossible</td>
-                    <td>upon</td>
-                    <td>learned</td>
-                    <td>throws</td>
-                </tr>
-                <tr>
-                    <td>Winter</td>
-                    <td>swears</td>
-                    <td>material</td>
-                    <td>master's</td>
-                    <td>forks</td>
-                    <td>path</td>
-                </tr>
-                <tr>
-                    <td>Bravely</td>
-                    <td>peoples</td>
-                    <td>darkness</td>
-                    <td>burned</td>
-                    <td>food</td>
-                    <td>courage</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>shreds</td>
-                    <td>making</td>
-                    <td>simple</td>
-                    <td>whispers</td>
-                    <td>promise</td>
-                    <td>animals</td>
-                </tr>
-            </tfoot>
-        </table>
-        <h4>Employment Treebeard's tasty trinket sire listening?</h4>
-        <p>
-            I have no memory of this place. Body Háma midday flash-flame
-            solitude. Madness ilk honest passed seize Kingdom find?
-            Invisible sprinkle market's accommodation Fenmarch.
-        </p>
-        <blockquote>
-            <p>Don't you leave him, Samwise Gamgee.</p>
-            <footer>
-                —Wraith, <cite>handle meats tunnels launching dragged</cite>
-            </footer>
-        </blockquote>
-        <h5>Vengeance worth disappearance high sisters Elendil.</h5>
-        <p>
-            Hear my voice. Come back to the light. Worrywort deserve bound
-            pointing walk waste lovely crossing bodyguard venerable myth!
-            Sticking world being staying loose Luin escaped fool settlement
-            list. Boffins naysayer wandering falls stuffed vanquished.
-        </p>
-        <pre>
-Fuel brave 111th floor Rauros. Bilbo rider birds hasty owes run. Decay counts sacks veiled Goblin-town.</pre>
-        <h6>Erebor stepped scrumptious middle tomato new.</h6>
-        <p>
-            <time>Dissuade</time> Anor o'clock noticed? Gundabad
-            <a>seams</a> innocent hate? Gloin brings
-            <var>secretive</var> tracked fails bur. Knots
-            <ins>needed terms</ins> coin tickle squealing Lórien. Smoking
-            <code>famished chokes</code> Wraiths squirrel fleet relic. Nose
-            <abbr>Théoden</abbr> spot trailing delved! Text Haldir real
-            halflings <cite>regain waste levels</cite>.
-            <dfn>Low dragons song stuck</dfn> fears cur flows heathen
-            Greenleaf. Amidst <q>Hobbit's Glamdring</q> colleague thousands
-            risked! Mereth t <del>oppose sister raise badly</del> freed.
-            Samwise Gamgee sun's bids barely raise
-            <samp>breeze ringing</samp>.
-            <mark>Offense job abroad accommodation</mark> veiling Edoras
-            drops. Cruel poison Galadriel <sub>carven</sub>. Disturbing
-            pickle <sup>Glamdring</sup> needed. Frying Dwarves work
-            <small>woe plain</small> malcontent? <kbd>A</kbd> heathen
-            Théoden's well-wishers.
-            <strong>Ranger Bolgers Tauriel</strong> ate shown thing among?
-            <em>Sauron Wraith Snowbourn Brandybucks Thorin's Understand</em>
-            older draining joined.
-        </p>
-        <hr />
-        <dl>
-            <dt>Fled</dt>
-            <dd>
-                Said setting Goblin-men stronghold bears mother large goal
-                sacrifice?
-            </dd>
-            <dt>Promises</dt>
-            <dd>
-                Expenses fallen council moves picking nightshade locking
-                Balin back?
-            </dd>
-            <dd>
-                Slightest thunder trouble suck fault Sméag swimming fear
-                myth.
-            </dd>
-            <dt>On</dt>
-            <dd>
-                Devil mistook carven suspicious hand Eorlingas forests mug
-                devils?
-            </dd>
-            <dd>
-                Clad sweet-taking brings notion ropes Helm's Deep regain
-                raising follow powers?
-            </dd>
-            <dd>
-                Then infested greedily alight sworn Alfrid safety risen.
-            </dd>
-        </dl>
-        <form>
-            <fieldset>
-                <legend>Crossing losing cleared</legend>
-                <div>
-                    <label>Text</label>
-                    <input type="text" />
-                </div>
-                <div>
-                    <label>Email</label>
-                    <input type="email" />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" />
-                </div>
-                <div>
-                    <label>Url</label>
-                    <input type="url" />
-                </div>
-                <div>
-                    <label>Number</label>
-                    <input type="number" />
-                </div>
-                <div>
-                    <label>Tel</label>
-                    <input type="tel" />
-                </div>
-                <div>
-                    <label>Search</label>
-                    <input type="search" />
-                </div>
-                <div>
-                    <label>Time</label>
-                    <input type="time" />
-                </div>
-                <div>
-                    <label>Date</label>
-                    <input type="date" />
-                </div>
-                <div>
-                    <label>Datetime-local</label>
-                    <input type="datetime-local" />
-                </div>
-                <div>
-                    <label>Week</label>
-                    <input type="week" />
-                </div>
-                <div>
-                    <label>Textarea</label>
-                    <textarea></textarea>
-                </div>
-            </fieldset>
-            <fieldset>
-                <legend>Any hutch</legend>
-                <div>
-                    <label>Month</label>
-                    <input type="month" />
-                </div>
-                <div>
-                    <label><input type="checkbox" name="checkbox" />victory
-                        journeys</label>
-                </div>
-                <div>
-                    <label>Color</label>
-                    <input type="color" />
-                </div>
-                <div>
-                    <label>File</label>
-                    <input type="file" />
-                </div>
-                <div>
-                    <label>Hidden</label>
-                    <input type="hidden" />
-                </div>
-                <div>
-                    <label>Image</label>
-                    <input type="image" />
-                </div>
-                <div>
-                    <label>shepherd whim oaths spends feed</label>
-                    <label><input type="radio" name="radio" />spared
-                        nothing's</label>
-                    <label><input type="radio" name="radio" />escaped
-                        over</label>
-                    <label><input type="radio" name="radio" />nothing
-                        forgetting</label>
-                </div>
-                <div>
-                    <label>Range</label>
-                    <input type="range" />
-                </div>
-                <div>
-                    <input type="button" value="Button" />
-                </div>
-                <div>
-                    <input type="reset" value="Reset" />
-                </div>
-                <div>
-                    <input type="submit" value="Submit" />
-                </div>
-                <button>murder inferno winter-thickets</button>
-                <div>
-                    <label>Select</label>
-                    <select>
-                        <optgroup label="nspection mother">
-                            <option>sowing</option>
-                            <option>hook</option>
-                            <option>proof</option>
-                        </optgroup>
-                        <optgroup label="iron-forged rods">
-                            <option>grievances</option>
-                            <option>northeast</option>
-                            <option>awake</option>
-                        </optgroup>
-                    </select>
-                </div>
-            </fieldset>
-        </form>
-    </div>
+    </main>
     <footer>
         <br />
         Made by

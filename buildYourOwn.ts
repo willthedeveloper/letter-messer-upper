@@ -1,3 +1,12 @@
+/**
+ *
+ *
+ * Modify the buildYourOwnEdits() function to apply custom behavior to every letter on the page.
+ * Test the function, and once it works locally, copy this entire file into a bookmarklet generator like https://medialab.github.io/artoo/generator/
+ * Finally, test your bookmarklet out on any site!
+ *
+ */
+
 // UTILS
 function textFilter(node: Node) {
     if (
